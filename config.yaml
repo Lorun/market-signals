@@ -1,0 +1,43 @@
+# Тікери Yahoo Finance. SUOA торгується на LSE — перевірте тікер на finance.yahoo.com
+# (має бути USD-клас; якщо ваш клас інший — замініть тут).
+tickers:
+  long: TLT
+  corp: SUOA.L
+
+# Скільки календарних днів історії тягнути (потрібно >= ~300 торгових днів для SMA200 + z-score).
+history_days: 800
+
+fred:
+  y2: DGS2          # 2Y Treasury
+  y10: DGS10        # 10Y Treasury
+  y30: DGS30        # 30Y Treasury
+  oas_ig: BAMLC0A0CM    # ICE BofA US Corporate OAS
+  oas_bbb: BAMLC0A4CBBB # ICE BofA BBB OAS
+  cpi: CPIAUCSL     # CPI (місячний)
+  payrolls: PAYEMS  # Nonfarm payrolls (місячний)
+  unrate: UNRATE    # Безробіття (місячний)
+
+params:
+  sma_fast: 50
+  sma_slow: 200
+  rsi_len: 14
+  divergence_lookback: 60   # вікно пошуку нового max/min для дивергенцій
+  divergence_recent: 5      # новий екстремум має бути в останні N днів
+  divergence_rsi_margin: 3  # на скільки пунктів RSI має "не підтвердити"
+  range_len: 120            # багатомісячний діапазон ratio (~6 міс)
+  range_skip: 5             # діапазон рахується без останніх N днів (щоб пробій тримався як стан)
+  chg_window: 20            # вікно зміни, торгових днів (~1 міс)
+  yield_chg_bp: 20          # поріг зміни 10Y за вікно
+  curve_chg_bp: 15          # поріг зміни нахилу кривої за вікно
+  oas_chg_bp: 10            # поріг зміни IG OAS за вікно
+  bbb_gap_chg_bp: 5         # поріг зміни (BBB − IG) за вікно
+  z_window: 252             # вікно z-score / перцентилів (~1 рік)
+  z_threshold: 1.5
+  vol_window: 20            # реалізована вол. 10Y (заміна MOVE)
+  vol_high_pct: 80
+  vol_low_pct: 20
+  stale_days: 5             # попередження, якщо дані старші за N днів
+
+telegram:
+  # Надсилати щоденне коротке зведення навіть без змін стану
+  daily_summary: false
