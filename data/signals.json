@@ -1,0 +1,88 @@
+{
+  "as_of": "2026-09-30",
+  "generated_utc": "2026-09-30T18:48:59+00:00",
+  "convention": "score > 0 = на користь TLT (ratio TLT/SUOA росте); < 0 = на користь SUOA",
+  "rates": {
+    "score": -3,
+    "max_score": 7,
+    "states": {
+      "ratio_vs_sma200": "below",
+      "sma_cross": "death",
+      "macd": "negative",
+      "rsi_zone": "neutral",
+      "rsi_divergence": "bullish",
+      "range_breakout": "below",
+      "y10_trend": "rising",
+      "curve_2s10s": "flat",
+      "curve_10s30s": "flattening",
+      "rates_vol": "high"
+    },
+    "metrics": {
+      "ratio": 15.18346,
+      "sma50": 15.66133,
+      "sma200": 16.00273,
+      "ratio_chg_20d_pct": -3.21,
+      "rsi": 33.1,
+      "macd_hist": -0.039307,
+      "range_high": 16.30454,
+      "range_low": 15.47914,
+      "y2": 4.92,
+      "y10": 5.24,
+      "y30": 5.56,
+      "y10_chg_bp": 45.0,
+      "s2s10_bp": 32.0,
+      "s2s10_chg_bp": -8.0,
+      "s10s30_bp": 32.0,
+      "s10s30_chg_bp": -16.0,
+      "rv10y_bp": 5.23,
+      "rv10y_pct_1y": 94.0,
+      "ratio_date": "2026-09-30"
+    },
+    "label": "помірно на користь SUOA"
+  },
+  "credit": {
+    "score": 2,
+    "max_score": 5,
+    "states": {
+      "oas_trend": "flat",
+      "oas_vs_sma50": "above",
+      "oas_sma_cross": "widening_regime",
+      "bbb_decompression": "flat",
+      "oas_extreme": "normal",
+      "oas_acceleration": "flat"
+    },
+    "metrics": {
+      "oas_ig_bp": 84.0,
+      "oas_ig_chg_bp": 3.0,
+      "oas_ig_sma50": 79.8,
+      "oas_ig_sma200": 79.2,
+      "oas_ig_z_1y": 1.08,
+      "oas_ig_pct_1y": 85.0,
+      "oas_bbb_bp": 102.0,
+      "bbb_ig_gap_bp": 18.0,
+      "bbb_ig_gap_chg_bp": 0.0,
+      "oas_accel_bp": 0.0,
+      "oas_date": "2026-09-29"
+    },
+    "label": "помірно на користь TLT"
+  },
+  "macro": {
+    "states": {
+      "inflation": "decelerating",
+      "labor": "mixed"
+    },
+    "metrics": {
+      "cpi_yoy": 3.71,
+      "cpi_yoy_3m_ago": 4.27,
+      "cpi_date": "2026-08-01",
+      "nfp_last_k": 162.0,
+      "nfp_3m_avg_k": 71.0,
+      "unrate": 4.1,
+      "unrate_3m_ago": 4.3,
+      "labor_date": "2026-08-01"
+    }
+  },
+  "warnings": [],
+  "alerts": [],
+  "alert_log": []
+}
