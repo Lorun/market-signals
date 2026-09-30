@@ -1,10 +1,10 @@
 {
   "as_of": "2026-09-30",
-  "generated_utc": "2026-09-30T20:14:10+00:00",
+  "generated_utc": "2026-09-30T20:17:50+00:00",
   "convention": "score > 0 = на користь TLT (ratio TLT/SUOA росте); < 0 = на користь SUOA",
   "hy_convention": "score > 0 = сприятливо для XUHA (risk-on); < 0 = несприятливо",
   "rates": {
-    "score": -3,
+    "score": -4,
     "max_score": 7,
     "states": {
       "ratio_vs_sma200": "below",
@@ -15,7 +15,7 @@
       "range_breakout": "below",
       "y10_trend": "rising",
       "curve_2s10s": "flat",
-      "curve_10s30s": "flattening",
+      "curve_10s30s": "flat",
       "rates_vol": "high"
     },
     "metrics": {
@@ -27,19 +27,19 @@
       "macd_hist": -0.037435,
       "range_high": 16.30454,
       "range_low": 15.47914,
-      "y2": 4.92,
-      "y10": 5.24,
-      "y30": 5.56,
-      "y10_chg_bp": 45.0,
-      "s2s10_bp": 32.0,
-      "s2s10_chg_bp": -8.0,
-      "s10s30_bp": 32.0,
-      "s10s30_chg_bp": -16.0,
-      "rv10y_bp": 5.23,
-      "rv10y_pct_1y": 94.0,
+      "y2": 4.89,
+      "y10": 5.26,
+      "y30": 5.59,
+      "y10_chg_bp": 47.0,
+      "s2s10_bp": 37.0,
+      "s2s10_chg_bp": -3.0,
+      "s10s30_bp": 33.0,
+      "s10s30_chg_bp": -15.0,
+      "rv10y_bp": 5.2,
+      "rv10y_pct_1y": 93.0,
       "ratio_date": "2026-09-30"
     },
-    "label": "помірно на користь SUOA"
+    "label": "сильно на користь SUOA"
   },
   "credit": {
     "score": 2,
@@ -138,16 +138,16 @@
   "warnings": [],
   "alerts": [
     {
-      "track": "high_yield",
-      "indicator": "sma_cross",
-      "from": "death",
-      "to": "golden"
+      "track": "rates",
+      "indicator": "curve_10s30s",
+      "from": "flattening",
+      "to": "flat"
     },
     {
-      "track": "high_yield",
+      "track": "rates",
       "indicator": "score_regime",
-      "from": "-2 (помірно несприятливо для XUHA)",
-      "to": "0 (нейтрально)"
+      "from": "-3 (помірно на користь SUOA)",
+      "to": "-4 (сильно на користь SUOA)"
     }
   ],
   "alert_log": [
@@ -325,6 +325,20 @@
       "indicator": "score_regime",
       "from": "-2 (помірно несприятливо для XUHA)",
       "to": "0 (нейтрально)"
+    },
+    {
+      "date": "2026-09-30",
+      "track": "rates",
+      "indicator": "curve_10s30s",
+      "from": "flattening",
+      "to": "flat"
+    },
+    {
+      "date": "2026-09-30",
+      "track": "rates",
+      "indicator": "score_regime",
+      "from": "-3 (помірно на користь SUOA)",
+      "to": "-4 (сильно на користь SUOA)"
     }
   ]
 }
