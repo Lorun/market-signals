@@ -3,6 +3,7 @@
 tickers:
   long: TLT
   corp: SUOA.SW
+  hy: XUHA.L        # Xtrackers USD High Yield Corporate Bond UCITS ETF 1C (LSE, USD)
 
 # Скільки календарних днів історії тягнути (потрібно >= ~300 торгових днів для SMA200 + z-score).
 history_days: 800
@@ -16,6 +17,15 @@ fred:
   cpi: CPIAUCSL     # CPI (місячний)
   payrolls: PAYEMS  # Nonfarm payrolls (місячний)
   unrate: UNRATE    # Безробіття (місячний)
+  # High Yield track
+  hy_oas:   BAMLH0A0HYM2       # ICE BofA US High Yield OAS
+  hy_yield: BAMLH0A0HYM2EY     # HY effective yield
+  hy_bb:    BAMLH0A1HYBB       # BB OAS
+  hy_ccc:   BAMLH0A3HYC        # CCC & lower OAS
+  vix:      VIXCLS             # VIX
+  nfci:     NFCI               # Chicago Fed financial conditions (тижневий)
+  sloos:    DRTSCILM           # % банків, що посилюють стандарти C&I-кредитування (квартальний)
+  oil:      DCOILWTICO         # WTI crude oil
 
 params:
   sma_fast: 50
@@ -37,6 +47,13 @@ params:
   vol_high_pct: 80
   vol_low_pct: 20
   stale_days: 5             # попередження, якщо дані старші за N днів
+  # High Yield params
+  hy_oas_chg_bp: 25         # поріг зміни HY OAS / CCC-BB за вікно (б.п.)
+  oil_chg_pct: 10           # поріг зміни WTI за 20д (%)
+  vix_low_pct: 30           # VIX ≤ N-го перцентиля → risk-on (low)
+  vix_high_pct: 80          # VIX ≥ N-го перцентиля → risk-off (elevated)
+  stale_days_weekly: 14     # застаріння для тижневих серій (NFCI)
+  stale_days_quarterly: 120 # застаріння для квартальних серій (SLOOS)
 
 telegram:
   # Надсилати щоденне коротке зведення навіть без змін стану
