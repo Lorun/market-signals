@@ -161,10 +161,11 @@ def format_message(sig: dict) -> str:
         lines.append(f"  кандидат: {REGIME_UA[R['candidate']]} ({R['candidate_days']}/{R['confirm_days']} днів)")
     lines += ["", f"Зараз:  {fmt_w(sig['portfolio'])}", f"Ціль:   {fmt_w(sig['target'])}"]
     if sig["actions_this_week"]:
-        lines.append(f"\n<b>Угоди цього тижня</b> (день виконання {sig['exec_day']}):")
+        lines.append(f"\n<b>Угоди</b> (сигнал {sig['signal_day']} → виконати {sig['execute_on']}):")
         for a in sig["actions_this_week"]:
+            tag = f"виконати {a['when']}" + (", Стрес — не чекаючи кінця тижня" if a["urgent"] else "")
             lines.append(f"• {BLOCK_UA[a['block']]}: {a['from_weight']:.0f}% → <b>{a['to_weight']:.0f}%</b> "
-                         f"[{a['when']}] — {a['reason']}")
+                         f"[{tag}] — {a['reason']}")
     else:
         lines.append("\nУгод цього тижня немає.")
     pause = f", пауза до {C['pause_until']}" if C["paused"] else ""
@@ -223,19 +224,21 @@ def main() -> int:
 
     last_date = df.index[-1]
     day = DayInputs.from_row(last_date, df.iloc[-1])
-    week = lambda d: pd.Timestamp(d).isocalendar()[:2]
-    done = [a for a in actions if week(a.date) == week(last_date)]
+    # Сигнал рахується після закриття LSE/Euronext → угода виконується наступного торгового дня
+    # (сигнал у п'ятницю → угода в понеділок; захисна дія в Стресі — наступного дня після сигналу).
+    nxt_bday = lambda d: pd.Timestamp(d) + pd.offsets.BDay(1)
+    week_start = last_date - pd.Timedelta(days=last_date.weekday())
     exec_flag = df["is_exec_day"]
-    when = lambda a: (str(a.date.date()) if exec_flag.get(a.date, False)
-                      else f"{a.date.date()} одразу (Стрес)")
-    week_actions = [{**a.as_dict(), "when": when(a)} for a in done]
+    done = [a for a in actions if nxt_bday(a.date) >= week_start]     # виконання припадає на цей тиждень
+    week_actions = [{**a.as_dict(), "signal_date": str(a.date.date()), "when": str(nxt_bday(a.date).date()),
+                     "urgent": not bool(exec_flag.get(a.date, False))} for a in done]
     if day.is_exec_day:
-        target_state = state
-        exec_day = str(last_date.date())
+        target_state, signal_day = state, last_date
     else:
         target_state, planned = preview(prev, day, scfg)
-        exec_day = str((last_date + pd.offsets.Week(weekday=4)).date())
-        week_actions += [{**a.as_dict(), "when": exec_day} for a in planned
+        signal_day = last_date + pd.offsets.Week(weekday=4)
+        week_actions += [{**a.as_dict(), "signal_date": str(signal_day.date()),
+                          "when": str(nxt_bday(signal_day).date()), "urgent": False} for a in planned
                          if not any(x.block == a.block for x in done if x.date == last_date)]
 
     # «Зараз» — ваги до угод цього тижня (рушій міг уже виконати захисні дії в Стресі)
@@ -261,7 +264,8 @@ def main() -> int:
         "model_weights": {b: round(v, 1) for b, v in state.weights.items()},
         "target": {b: round(v, 1) for b, v in target_state.target_weights().items()},
         "actions_this_week": week_actions,
-        "exec_day": exec_day,
+        "signal_day": str(signal_day.date()),
+        "execute_on": str(nxt_bday(signal_day).date()),
         "core": {"peak": r(state.core_peak), "drawdown_pct": r(dd), "ladder_step": state.ladder_step,
                  "next_step_pct": f"−{nxt[0]}% → ядро {nxt[1]}%" if nxt else "—",
                  "paused": state.pause_until is not None and last_date <= state.pause_until,

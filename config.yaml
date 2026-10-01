@@ -107,6 +107,7 @@ strategy:
 
 backtest:
   fee: 0.001                # комісія/спред від обороту
+  exec_lag_days: 1          # угода через N торгових днів після сигналу (пт → пн)
   benchmark: {core: 60, equity: 15, cash: 25}
   starts: ["2008-01-01", "2010-01-01"]
 
