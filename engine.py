@@ -34,6 +34,7 @@ class StrategyConfig:
     confirm_days: int = 5
     ladder: tuple = ((7, 50), (14, 40), (20, 30))
     core_floor: float = 30
+    stress_ladder_below_sma200: bool = True
     pause_weeks: int = 4
     bottom_y30_pct: float = 90
     bottom_y10_flat_bp: float = 10
@@ -66,6 +67,7 @@ class DayInputs:
     core_px: float
     stress: bool = False
     downtrend: bool = False        # TLT < SMA200 і SMA50 < SMA200
+    core_above: bool = False       # TLT > SMA200
     core_above_streak: int = 0
     y30_pct_5y: float = float("nan")
     y10_chg_bp: float = float("nan")
@@ -87,6 +89,7 @@ class DayInputs:
             core_px=float(row["core_px"]),
             stress=bool(num("stress", False)),
             downtrend=bool(num("core_downtrend", False)),
+            core_above=bool(num("core_above", False)),
             core_above_streak=int(num("core_above_streak", 0)),
             y30_pct_5y=float(num("y30_pct_5y", float("nan"))),
             y10_chg_bp=float(num("y10_chg_bp", float("nan"))),
@@ -229,7 +232,8 @@ def step(state: EngineState, day: DayInputs, cfg: StrategyConfig) -> tuple[Engin
 
     # ── 2. Ядро: сходинки продажу → пауза → повернення → скидання піку ──
     dd = -(day.core_px / s["core_peak"] - 1) * 100            # падіння від піку, додатне
-    if regime in ("rates_up", "stress") and (can_exec or stress):
+    ladder_on = regime == "rates_up" or (stress and not (cfg.stress_ladder_below_sma200 and day.core_above))
+    if ladder_on and (can_exec or stress):
         k = ladder_target_step(dd, day.downtrend, cfg)
         if k > s["ladder_step"]:
             nxt = s["ladder_step"] + 1
@@ -293,8 +297,8 @@ def step(state: EngineState, day: DayInputs, cfg: StrategyConfig) -> tuple[Engin
     base_eq = float(cfg.base["equity"])
     ext_fail = []
     if day.eq_above_streak < cfg.equity_streak:
-        ext_fail.append("SSAC нижче SMA200" if day.eq_above_streak == 0
-                        else f"SSAC вище SMA200 лише {day.eq_above_streak} дн.")
+        ext_fail.append("ISAC нижче SMA200" if day.eq_above_streak == 0
+                        else f"ISAC вище SMA200 лише {day.eq_above_streak} дн.")
     if stress:
         ext_fail.append("режим Стрес")
     if s["ladder_step"] > 0:
@@ -342,7 +346,7 @@ def step(state: EngineState, day: DayInputs, cfg: StrategyConfig) -> tuple[Engin
         if cash_after >= cfg.cash_min:
             s["equity_extra"] += cfg.equity_tranche
             targets["equity"], settled["equity"] = base_eq + s["equity_extra"], False
-            reasons["equity"].append(f"SSAC вище SMA200 {day.eq_above_streak} днів — розширення "
+            reasons["equity"].append(f"ISAC вище SMA200 {day.eq_above_streak} днів — розширення "
                                      f"акцій до {targets['equity']:.0f}%")
     if not settled["equity"] and not reasons["equity"]:
         reasons["equity"].append(f"база акцій {targets['equity']:.0f}%")

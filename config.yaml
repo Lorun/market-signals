@@ -3,7 +3,7 @@ tickers:
   core: TLT          # сигнальний ряд ядра (з 2002)
   cta: DBMF          # сигнальний ряд CTA (з 2019)
   cta_exec: DBMF.PA  # інструмент виконання CTA — лише моніторинг розбіжності з DBMF
-  equity: SSAC.L     # iShares MSCI ACWI UCITS, USD Acc (з 2011)
+  equity: ISAC.L     # iShares MSCI ACWI UCITS, USD Acc, LSE у USD (IE00B6R52259; з 2011). НЕ SSAC.L — той самий фонд у GBp
   cash: IB01.L       # iShares $ Treasury Bond 0-1yr UCITS (з 2019)
 
 # Проксі для бектесту: ряди склеюються за щоденною дохідністю (sources.chain_returns).
@@ -15,7 +15,7 @@ proxies:
     - {ticker: DBMF,  from: "2019-05-09"}
   equity:
     - {ticker: ACWI,   from: "2008-01-01"}
-    - {ticker: SSAC.L, from: "2011-11-01"}   # перші дні лістингу — глюки цін
+    - {ticker: ISAC.L, from: "2011-10-24"}
   cash:
     - {fred: DTB3,     from: "2000-01-01"}   # річна ставка 3M T-bill → щоденна дохідність
     - {ticker: IB01.L, from: "2019-03-01"}   # 2019-02-22: стрибок 5 → 99 (глюк Yahoo)
@@ -75,6 +75,7 @@ strategy:
     - [14, 40]
     - [20, 30]              # останній щабель вимагає ще й тренду вниз
   core_floor: 30
+  stress_ladder_below_sma200: true   # у Стресі сходинки лише якщо TLT нижче SMA200
   pause_weeks: 4
   bottom_y30_pct: 90        # ознака дна 1: 30Y ≥ 90-го перцентиля за 5 років
   bottom_y10_flat_bp: 10    # ознака дна 2: |зміна 10Y за 20д| ≤ N б.п.

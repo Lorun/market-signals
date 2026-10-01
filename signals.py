@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Портфельний монітор (docs/strategy.md): ядро TLT · акції SSAC · CTA DBMF · кеш.
+Портфельний монітор (docs/strategy.md): ядро TLT · акції ISAC · CTA DBMF · кеш.
 
 Треки (векторно, по днях): core, rates, stress, cta, equity; macro — контекст.
 Рушій правил (engine.py) проганяється від стартового стану з portfolio.yaml до сьогодні
@@ -177,7 +177,7 @@ def format_message(sig: dict) -> str:
         f"TLT {T['core']['metrics']['dist_sma200_pct']:+.1f}% від SMA200 · "
         f"10Y {T['rates']['metrics']['y10']}% ({T['rates']['metrics']['y10_chg_20d_bp']:+} б.п. за 20д) · "
         f"IG OAS z {T['stress']['metrics']['oas_ig_z_1y']} · VIX {T['stress']['metrics']['vix']}",
-        f"SSAC {T['equity']['metrics']['dist_sma200_pct']:+.1f}% від SMA200",
+        f"ISAC {T['equity']['metrics']['dist_sma200_pct']:+.1f}% від SMA200",
     ]
     if sig["warnings"]:
         lines.append("\n⚠️ " + "; ".join(sig["warnings"]))

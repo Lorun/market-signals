@@ -6,7 +6,7 @@ from indicators import streak
 
 
 def equity_track(px: pd.Series, p: dict) -> pd.DataFrame:
-    """Акції (SSAC.L / ACWI у бектесті) vs SMA200 — по днях."""
+    """Акції (ISAC.L / ACWI у бектесті) vs SMA200 — по днях."""
     sma = px.rolling(p["sma_slow"]).mean()
     above = (px > sma) & sma.notna()
     return pd.DataFrame({

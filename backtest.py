@@ -2,7 +2,7 @@
 """
 Бектест стратегії на тому самому рушії (`engine.step`), що й живий звіт.
 
-Прогони: з 2008 (CTA: RYMFX→AQMIX→DBMF) і з 2010 (CTA: AQMIX→DBMF); акції ACWI→SSAC.L,
+Прогони: з 2008 (CTA: RYMFX→AQMIX→DBMF) і з 2010 (CTA: AQMIX→DBMF); акції ACWI→ISAC.L,
 кеш DTB3→IB01.L, умова Стресу по кредиту — BAA10Y (IG OAS на FRED лише ~3 роки).
 Старт із базового стану. Сигнал на close дня t, угода на close t, дохідність з t+1.
 
@@ -180,7 +180,7 @@ def main() -> int:
     md = ["# Бектест стратегії", "",
           "Рушій — той самий `engine.step()`, що й у щоденному звіті; старт із базового стану "
           "(ядро 60 · акції 15 · CTA 5 · кеш 20). Проксі: CTA RYMFX (2007–2010) → AQMIX (2010–2019) → DBMF; "
-          "акції ACWI → SSAC.L (з 2011-10); кеш DTB3 → IB01.L (з 2019-02); умова Стресу по кредиту — "
+          "акції ACWI → ISAC.L (з 2011-10); кеш DTB3 → IB01.L (з 2019-02); умова Стресу по кредиту — "
           "z-score BAA10Y замість IG OAS (ICE OAS на FRED доступний лише з 2023). "
           "Проксі CTA — інші менеджери: результат показує характер захисту, а не точні цифри.", ""]
     curves, all_actions, main_df, main_start = [], [], None, None
@@ -214,6 +214,8 @@ def main() -> int:
                            dataclasses.replace(scfg, ladder=tuple((l + sh, w) for l, w in lad))))
     for n in (3, 10):
         variants_s.append((f"підтвердження режиму {n} дн.", dataclasses.replace(scfg, confirm_days=n)))
+    variants_s.append(("сходинки в Стресі навіть при TLT вище SMA200 (старе правило)",
+                       dataclasses.replace(scfg, stress_ladder_below_sma200=not scfg.stress_ladder_below_sma200)))
     for name, sc in variants_s:
         log, actions = simulate(main_df, sc, main_start, fee)
         m = metrics(log["strategy"])

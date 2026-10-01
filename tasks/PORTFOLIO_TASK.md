@@ -48,10 +48,10 @@ step(state: EngineState, day: DayInputs, cfg: StrategyConfig) -> (EngineState, l
 | `core` | Yahoo `TLT` | Сигнальний ряд ядра (з 2002) |
 | `cta` | Yahoo `DBMF` | Сигнальний ряд CTA (з 2019) |
 | `cta_exec` | Yahoo `DBMF.PA` | Інструмент виконання; лише для моніторингу розбіжності з DBMF |
-| `equity` | Yahoo `SSAC.L` | Акції (з 2011) |
+| `equity` | Yahoo `ISAC.L` | Акції: iShares MSCI ACWI, лістинг LSE у USD (IE00B6R52259). Не плутати з `SSAC.L` — той самий фонд, але в GBp. Якщо історія `ISAC.L` на Yahoo коротка — склеїти з `ACWI` |
 | `cash` | Yahoo `IB01.L` | Кеш (з 2019) |
 | бектест | Yahoo `AQMIX` (2010–2019), `RYMFX` (2007–2010) | Проксі CTA до DBMF |
-| бектест | Yahoo `ACWI` (з 2008) | Проксі акцій до SSAC.L |
+| бектест | Yahoo `ACWI` (з 2008) | Проксі акцій до ISAC.L |
 | бектест | FRED `DTB3` | Проксі кешу до IB01 (річна ставка → щоденна дохідність) |
 | існуючі | FRED DGS2/10/30, IG OAS, BBB OAS, HY OAS, VIX, NFCI, CPI, NFP, UNRATE | Ставки, стрес, контекст |
 
@@ -71,7 +71,7 @@ step(state: EngineState, day: DayInputs, cfg: StrategyConfig) -> (EngineState, l
 3. **stress** — три умови з `docs/strategy.md` §2 окремими прапорцями + загальний `stress`.
 4. **cta** — 5 компонентів по 0/1/2 і сума 0–10 (таблиця в §5), DBMF vs SMA100,
    20-денні дохідності DBMF і TLT, 60-денна кореляція щоденних дохідностей.
-5. **equity** — SSAC vs SMA200, «вище N днів поспіль».
+5. **equity** — ISAC vs SMA200, «вище N днів поспіль».
 6. **macro** — як зараз, лише контекст.
 
 ## Етап 3. Рушій правил (`engine.py`)
@@ -86,7 +86,7 @@ step(state: EngineState, day: DayInputs, cfg: StrategyConfig) -> (EngineState, l
    Зміни < 2 п.п. ігноруються.
 
 Кожна дія — `Action(date, block, from_weight, to_weight, reason)`, де `reason` — людський текст
-(«сходинка −14%», «скоринг CTA 7 → 15%», «SSAC нижче SMA200»).
+(«сходинка −14%», «скоринг CTA 7 → 15%», «ISAC нижче SMA200»).
 
 **Тести (pytest)** на рушій з синтетичними рядами — щонайменше:
 сходинки спрацьовують на −7/−14/−20%; пауза відкладає сходинку і не скасовує її; повернення не частіше ніж раз на 2 тижні;

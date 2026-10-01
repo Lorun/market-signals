@@ -67,6 +67,15 @@ def test_ladder_only_in_rates_up_or_stress():
     assert "core" not in acts_by_block(acts)
 
 
+def test_stress_ladder_requires_tlt_below_sma200():
+    wed = fri(0) - pd.Timedelta(days=2)
+    _, acts = step(state(regime="stress"), day(wed, core_px=92.0, stress=True, core_above=True), CFG)
+    assert not acts                                   # стрес без низхідного тренду TLT — ядро не продаємо
+    off = dataclasses.replace(CFG, stress_ladder_below_sma200=False)
+    _, acts = step(state(regime="stress"), day(wed, core_px=92.0, stress=True, core_above=True), off)
+    assert acts_by_block(acts)["core"].to_weight == pytest.approx(50)
+
+
 def test_ladder_waits_for_exec_day_unless_stress():
     wed = fri(0) - pd.Timedelta(days=2)
     _, acts = step(state(regime="rates_up"), day(wed, core_px=92.0, downtrend=True), CFG)
@@ -198,7 +207,7 @@ def test_equity_base_never_sold_by_trend():
               targets={"core": 60.0, "equity": 25.0, "cta": 5.0}, equity_extra=10.0)
     s2, acts = step(s, day(fri(0), eq_above_streak=0), CFG)
     a = acts_by_block(acts)["equity"]
-    assert a.to_weight == pytest.approx(15) and "SSAC нижче SMA200" in a.reason
+    assert a.to_weight == pytest.approx(15) and "ISAC нижче SMA200" in a.reason
     assert s2.equity_extra == 0
 
 
