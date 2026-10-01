@@ -161,9 +161,14 @@ def format_message(sig: dict) -> str:
         lines.append(f"  кандидат: {REGIME_UA[R['candidate']]} ({R['candidate_days']}/{R['confirm_days']} днів)")
     lines += ["", f"Зараз:  {fmt_w(sig['portfolio'])}", f"Ціль:   {fmt_w(sig['target'])}"]
     if sig["actions_this_week"]:
-        lines.append(f"\n<b>Угоди</b> (сигнал {sig['signal_day']} → виконати {sig['execute_on']}):")
+        if sig["signal_final"]:
+            lines.append(f"\n<b>Угоди</b> (сигнал за закриттям {sig['signal_day']} → виконати {sig['execute_on']}):")
+        else:
+            lines.append(f"\n<b>Угоди</b> (попередньо за даними {sig['as_of']}; остаточний сигнал — закриття "
+                         f"{sig['signal_day']} → виконати {sig['execute_on']}):")
         for a in sig["actions_this_week"]:
-            tag = f"виконати {a['when']}" + (", Стрес — не чекаючи кінця тижня" if a["urgent"] else "")
+            tag = (f"виконати {a['when']}" + (", Стрес — не чекаючи кінця тижня" if a["urgent"] else "")
+                   + (", попередньо" if a["preliminary"] else ""))
             lines.append(f"• {BLOCK_UA[a['block']]}: {a['from_weight']:.0f}% → <b>{a['to_weight']:.0f}%</b> "
                          f"[{tag}] — {a['reason']}")
     else:
@@ -231,14 +236,16 @@ def main() -> int:
     exec_flag = df["is_exec_day"]
     done = [a for a in actions if nxt_bday(a.date) >= week_start]     # виконання припадає на цей тиждень
     week_actions = [{**a.as_dict(), "signal_date": str(a.date.date()), "when": str(nxt_bday(a.date).date()),
-                     "urgent": not bool(exec_flag.get(a.date, False))} for a in done]
+                     "urgent": not bool(exec_flag.get(a.date, False)), "preliminary": False} for a in done]
     if day.is_exec_day:
         target_state, signal_day = state, last_date
     else:
         target_state, planned = preview(prev, day, scfg)
         signal_day = last_date + pd.offsets.Week(weekday=4)
-        week_actions += [{**a.as_dict(), "signal_date": str(signal_day.date()),
-                          "when": str(nxt_bday(signal_day).date()), "urgent": False} for a in planned
+        # прогноз: що рушій зробить за закриттям дня сигналу, якщо дані не зміняться (дата — дата даних)
+        week_actions += [{**a.as_dict(), "signal_date": str(last_date.date()),
+                          "when": str(nxt_bday(signal_day).date()), "urgent": False, "preliminary": True}
+                         for a in planned
                          if not any(x.block == a.block for x in done if x.date == last_date)]
 
     # «Зараз» — ваги до угод цього тижня (рушій міг уже виконати захисні дії в Стресі)
@@ -264,7 +271,8 @@ def main() -> int:
         "model_weights": {b: round(v, 1) for b, v in state.weights.items()},
         "target": {b: round(v, 1) for b, v in target_state.target_weights().items()},
         "actions_this_week": week_actions,
-        "signal_day": str(signal_day.date()),
+        "signal_day": str(signal_day.date()),           # день тижневого сигналу (може бути в майбутньому)
+        "signal_final": bool(day.is_exec_day),          # False → угоди тижня попередні, за даними as_of
         "execute_on": str(nxt_bday(signal_day).date()),
         "core": {"peak": r(state.core_peak), "drawdown_pct": r(dd), "ladder_step": state.ladder_step,
                  "next_step_pct": f"−{nxt[0]}% → ядро {nxt[1]}%" if nxt else "—",

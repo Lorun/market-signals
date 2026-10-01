@@ -69,7 +69,7 @@ core_peak: auto   # максимум TLT за 252 дні до as_of; або чи
 
 ## Виходи
 - `data/signals.json` — `regime` (+ кандидат і лічильник), `portfolio` (ваги до угод тижня),
-  `model_weights` (після), `target`, `signal_day`/`execute_on`, `actions_this_week` (угоди, виконання яких припадає на цей тиждень: `signal_date`, `when` — коли виконати, `urgent`, `reason`), `core` (пік, просадка,
+  `model_weights` (після), `target`, `signal_day`/`execute_on`/`signal_final`, `actions_this_week` (угоди, виконання яких припадає на цей тиждень: `signal_date` — дата даних, `when` — коли виконати, `urgent`, `preliminary` — прогноз до тижневого сигналу, `reason`), `core` (пік, просадка,
   сходинка, пауза, ознаки дна), `cta_score` з розкладом, `tracks`, `warnings`, `alert_log`.
 - `data/history.csv` — дата, режим, модельні ваги, просадка ядра, скоринг CTA, 10Y, IG OAS, VIX.
 - `data/backtest/` — `equity_curve.csv`, `actions.csv`, `summary.md`.
