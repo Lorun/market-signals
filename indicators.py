@@ -50,3 +50,45 @@ def trend3(chg: float, thr: float, up: str, down: str) -> str:
 
 def r(x, nd=2):
     return None if x is None or (isinstance(x, float) and np.isnan(x)) else round(float(x), nd)
+
+
+# ───────────── векторні версії (часові ряди по днях) ─────────────
+
+def divergence_series(price: pd.Series, osc: pd.Series, lookback: int, recent: int,
+                      margin: float) -> pd.Series:
+    """Векторна `divergence`: значення на кожен день = divergence(price[:t], osc[:t], ...).
+    Пріоритет як у скалярній версії: менший зсув перемагає, на тому ж зсуві — bearish."""
+    out = pd.Series("none", index=price.index, dtype=object)
+    for k in range(recent - 1, -1, -1):          # k = i-1; найменший k записується останнім
+        p, o = price.shift(k), osc.shift(k)
+        p_win, o_win = price.shift(k + 1).rolling(lookback), osc.shift(k + 1).rolling(lookback)
+        p_max, p_min = p_win.max(), p_win.min()
+        o_max, o_min = o_win.max(), o_win.min()
+        ok = o.notna() & p_max.notna()
+        bull = ok & (p < p_min) & (o > o_min + margin)
+        bear = ok & (p > p_max) & (o < o_max - margin)
+        out[bull] = "bullish"
+        out[bear] = "bearish"
+    return out
+
+
+def rolling_pct_rank(s: pd.Series, n: int, min_periods: int | None = None) -> pd.Series:
+    """Як `pct_rank`, але на кожен день: частка значень у вікні n, менших за поточне (0–100)."""
+    def f(w):
+        w = w[~np.isnan(w)]
+        return (w < w[-1]).mean() * 100 if len(w) else np.nan
+    s = s.dropna()
+    return s.rolling(n, min_periods=min_periods or n).apply(f, raw=True)
+
+
+def rolling_z(s: pd.Series, n: int, min_periods: int | None = None) -> pd.Series:
+    roll = s.rolling(n, min_periods=min_periods or n)
+    sd = roll.std()
+    return ((s - roll.mean()) / sd.where(sd > 0)).fillna(0.0).where(sd.notna())
+
+
+def streak(cond: pd.Series) -> pd.Series:
+    """Скільки днів поспіль виконується умова (0, якщо не виконується сьогодні)."""
+    c = cond.fillna(False).astype(bool)
+    grp = (~c).cumsum()
+    return c.astype(int).groupby(grp).cumsum()

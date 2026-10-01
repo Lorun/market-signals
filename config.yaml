@@ -1,60 +1,114 @@
-# Тікери Yahoo Finance. SUOA торгується на LSE — перевірте тікер на finance.yahoo.com
-# (має бути USD-клас; якщо ваш клас інший — замініть тут).
+# Тікери Yahoo Finance (ціни скориговані на дивіденди, auto_adjust=True).
 tickers:
-  long: TLT
-  corp: SUOA.SW
-  hy: XUHA.L        # Xtrackers USD High Yield Corporate Bond UCITS ETF 1C (LSE, USD)
+  core: TLT          # сигнальний ряд ядра (з 2002)
+  cta: DBMF          # сигнальний ряд CTA (з 2019)
+  cta_exec: DBMF.PA  # інструмент виконання CTA — лише моніторинг розбіжності з DBMF
+  equity: SSAC.L     # iShares MSCI ACWI UCITS, USD Acc (з 2011)
+  cash: IB01.L       # iShares $ Treasury Bond 0-1yr UCITS (з 2019)
 
-# Скільки календарних днів історії тягнути (потрібно >= ~300 торгових днів для SMA200 + z-score).
-history_days: 800
+# Проксі для бектесту: ряди склеюються за щоденною дохідністю (sources.chain_returns).
+# Кожен сегмент діє від своєї дати `from` до початку наступного.
+proxies:
+  cta:
+    - {ticker: RYMFX, from: "2007-01-01"}
+    - {ticker: AQMIX, from: "2010-01-06"}
+    - {ticker: DBMF,  from: "2019-05-09"}
+  equity:
+    - {ticker: ACWI,   from: "2008-01-01"}
+    - {ticker: SSAC.L, from: "2011-11-01"}   # перші дні лістингу — глюки цін
+  cash:
+    - {fred: DTB3,     from: "2000-01-01"}   # річна ставка 3M T-bill → щоденна дохідність
+    - {ticker: IB01.L, from: "2019-03-01"}   # 2019-02-22: стрибок 5 → 99 (глюк Yahoo)
+
+# Скільки календарних днів історії тягнути для живого звіту
+# (перцентиль 30Y за 5 років + SMA200 + запас до стартової дати portfolio.yaml).
+history_days: 2700
 
 fred:
-  y2: DGS2          # 2Y Treasury
-  y10: DGS10        # 10Y Treasury
-  y30: DGS30        # 30Y Treasury
-  oas_ig: BAMLC0A0CM    # ICE BofA US Corporate OAS
-  oas_bbb: BAMLC0A4CBBB # ICE BofA BBB OAS
-  cpi: CPIAUCSL     # CPI (місячний)
-  payrolls: PAYEMS  # Nonfarm payrolls (місячний)
-  unrate: UNRATE    # Безробіття (місячний)
-  # High Yield track
-  hy_oas:   BAMLH0A0HYM2       # ICE BofA US High Yield OAS
-  hy_yield: BAMLH0A0HYM2EY     # HY effective yield
-  hy_bb:    BAMLH0A1HYBB       # BB OAS
-  hy_ccc:   BAMLH0A3HYC        # CCC & lower OAS
-  vix:      VIXCLS             # VIX
-  nfci:     NFCI               # Chicago Fed financial conditions (тижневий)
-  sloos:    DRTSCILM           # % банків, що посилюють стандарти C&I-кредитування (квартальний)
-  oil:      DCOILWTICO         # WTI crude oil
+  y2: DGS2              # 2Y Treasury
+  y10: DGS10            # 10Y Treasury
+  y30: DGS30            # 30Y Treasury
+  tbill: DTB3           # 3M T-bill (проксі кешу в бектесті)
+  oas_ig: BAMLC0A0CM    # ICE BofA US Corporate OAS (на FRED лише ~3 роки)
+  oas_bbb: BAMLC0A4CBBB # ICE BofA BBB OAS (контекст)
+  baa10y: BAA10Y        # Moody's Baa − 10Y: проксі IG OAS для бектесту
+  hy_oas: BAMLH0A0HYM2  # ICE BofA US High Yield OAS (контекст стресу)
+  vix: VIXCLS           # VIX
+  nfci: NFCI            # Chicago Fed financial conditions (тижневий)
+  cpi: CPIAUCSL         # CPI (місячний)
+  payrolls: PAYEMS      # Nonfarm payrolls (місячний)
+  unrate: UNRATE        # Безробіття (місячний)
 
 params:
   sma_fast: 50
   sma_slow: 200
+  sma_cta: 100              # DBMF vs SMA100 (підтвердження CTA)
   rsi_len: 14
   divergence_lookback: 60   # вікно пошуку нового max/min для дивергенцій
   divergence_recent: 5      # новий екстремум має бути в останні N днів
   divergence_rsi_margin: 3  # на скільки пунктів RSI має "не підтвердити"
-  range_len: 120            # багатомісячний діапазон ratio (~6 міс)
-  range_skip: 5             # діапазон рахується без останніх N днів (щоб пробій тримався як стан)
   chg_window: 20            # вікно зміни, торгових днів (~1 міс)
-  yield_chg_bp: 20          # поріг зміни 10Y за вікно
-  curve_chg_bp: 15          # поріг зміни нахилу кривої за вікно
-  oas_chg_bp: 10            # поріг зміни IG OAS за вікно
-  bbb_gap_chg_bp: 5         # поріг зміни (BBB − IG) за вікно
+  corr_window: 60           # кореляція DBMF/TLT
   z_window: 252             # вікно z-score / перцентилів (~1 рік)
-  z_threshold: 1.5
+  pct_window_5y: 1260       # перцентиль 30Y (~5 років)
+  pct_min_periods: 252      # мінімум історії для перцентилів
   vol_window: 20            # реалізована вол. 10Y (заміна MOVE)
-  vol_high_pct: 80
-  vol_low_pct: 20
-  stale_days: 5             # попередження, якщо дані старші за N днів
-  # High Yield params
-  hy_oas_chg_bp: 25         # поріг зміни HY OAS / CCC-BB за вікно (б.п.)
-  oil_chg_pct: 10           # поріг зміни WTI за 20д (%)
-  vix_low_pct: 30           # VIX ≤ N-го перцентиля → risk-on (low)
-  vix_high_pct: 80          # VIX ≥ N-го перцентиля → risk-off (elevated)
-  stale_days_weekly: 14     # застаріння для тижневих серій (NFCI)
-  stale_days_quarterly: 120 # застаріння для квартальних серій (SLOOS)
+  stale_days: 5             # попередження, якщо денні дані старші за N днів
+  stale_days_weekly: 14     # для тижневих серій (NFCI)
+  stale_days_monthly: 75    # для місячних (CPI, NFP)
+  ffill_limit: 5            # вирівнювання LSE/Paris/FRED на календар NYSE
+  cta_exec_gap_pct: 2       # попередження, якщо DBMF.PA і DBMF розійшлись за 20д більше ніж на N%
+
+# Правила стратегії — docs/strategy.md. Ваги в % портфеля.
+strategy:
+  base: {core: 60, equity: 15, cta: 5, cash: 20}
+  cash_min: 10
+  confirm_days: 5           # §2: новий режим після N торгових днів поспіль
+  # §2 Стрес
+  stress_y10_chg_bp: 40     # 10Y +40 б.п. за 20 днів ...
+  stress_vol_pct: 80        # ... при волатильності ставок ≥ N-го перцентиля
+  stress_credit_z: 1.5      # IG OAS z-score
+  stress_vix_pct: 90        # VIX ≥ N-го перцентиля за рік
+  # §3 Ядро
+  ladder:                   # [падіння від піку %, ядро знижується до %]
+    - [7, 50]
+    - [14, 40]
+    - [20, 30]              # останній щабель вимагає ще й тренду вниз
+  core_floor: 30
+  pause_weeks: 4
+  bottom_y30_pct: 90        # ознака дна 1: 30Y ≥ 90-го перцентиля за 5 років
+  bottom_y10_flat_bp: 10    # ознака дна 2: |зміна 10Y за 20д| ≤ N б.п.
+  bottom_min_signs: 2       # 2 з 3
+  return_streak: 10         # TLT вище SMA200 N днів поспіль
+  return_step: 10           # п.п.
+  return_min_days: 14       # не частіше ніж раз на 2 тижні (календарні дні)
+  # §4 Акції
+  equity_max: 25
+  equity_streak: 5
+  equity_tranche: 5
+  equity_rebalance_band: 5
+  # §5 CTA
+  cta_min: 5
+  cta_tranche: 5
+  cta_score_weights:        # [мінімальний бал, частка]
+    - [0, 5]
+    - [4, 10]
+    - [6, 15]
+    - [8, 20]
+    - [10, 25]
+  cta_tlt_below_pct: 3      # компонент 1: нижче SMA200 ≥ 3%
+  cta_sma_gap_pct: 2        # компонент 2: SMA50 нижче SMA200 на ≥ 2%
+  cta_y10_bp: [10, 20]      # компонент 3
+  cta_vol_pct: [50, 80]     # компонент 4
+  cta_dbmf_above_pct: 2     # компонент 5: DBMF вище SMA100 ≥ 2%
+  # §6
+  min_change: 2             # зміни < 2 п.п. ігноруються
+
+backtest:
+  fee: 0.001                # комісія/спред від обороту
+  benchmark: {core: 60, equity: 15, cash: 25}
+  starts: ["2008-01-01", "2010-01-01"]
 
 telegram:
-  # Надсилати щоденне коротке зведення навіть без змін стану
+  # Надсилати щоденне коротке зведення навіть без змін
   daily_summary: false

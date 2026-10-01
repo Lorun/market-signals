@@ -1,140 +1,179 @@
 {
-  "as_of": "2026-09-29",
-  "generated_utc": "2026-10-01T01:27:25+00:00",
-  "convention": "score > 0 = на користь TLT (ratio TLT/SUOA росте); < 0 = на користь SUOA",
-  "hy_convention": "score > 0 = сприятливо для XUHA (risk-on); < 0 = несприятливо",
-  "rates": {
-    "score": -4,
-    "max_score": 7,
-    "states": {
-      "ratio_vs_sma200": "below",
-      "sma_cross": "death",
-      "macd": "negative",
-      "rsi_zone": "neutral",
-      "rsi_divergence": "bullish",
-      "range_breakout": "below",
-      "y10_trend": "rising",
-      "curve_2s10s": "flat",
-      "curve_10s30s": "flat",
-      "rates_vol": "high"
-    },
-    "metrics": {
-      "ratio": 15.3092,
-      "sma50": 15.66385,
-      "sma200": 16.00336,
-      "ratio_chg_20d_pct": -2.41,
-      "rsi": 36.6,
-      "macd_hist": -0.031283,
-      "range_high": 16.30454,
-      "range_low": 15.47914,
-      "y2": 4.89,
-      "y10": 5.26,
-      "y30": 5.59,
-      "y10_chg_bp": 47.0,
-      "s2s10_bp": 37.0,
-      "s2s10_chg_bp": -3.0,
-      "s10s30_bp": 33.0,
-      "s10s30_chg_bp": -15.0,
-      "rv10y_bp": 5.2,
-      "rv10y_pct_1y": 93.0,
-      "ratio_date": "2026-09-29"
-    },
-    "label": "сильно на користь SUOA"
+  "as_of": "2026-10-01",
+  "generated_utc": "2026-10-01T17:43:22+00:00",
+  "portfolio_as_of": "2026-10-01",
+  "regime": {
+    "current": "stress",
+    "label": "🔴 Стрес",
+    "candidate": null,
+    "candidate_days": 0,
+    "confirm_days": 5
   },
-  "credit": {
-    "score": 2,
-    "max_score": 5,
-    "states": {
-      "oas_trend": "flat",
-      "oas_vs_sma50": "above",
-      "oas_sma_cross": "widening_regime",
-      "bbb_decompression": "flat",
-      "oas_extreme": "normal",
-      "oas_acceleration": "flat"
-    },
-    "metrics": {
-      "oas_ig_bp": 84.0,
-      "oas_ig_chg_bp": 3.0,
-      "oas_ig_sma50": 79.8,
-      "oas_ig_sma200": 79.2,
-      "oas_ig_z_1y": 1.08,
-      "oas_ig_pct_1y": 85.0,
-      "oas_bbb_bp": 102.0,
-      "bbb_ig_gap_bp": 18.0,
-      "bbb_ig_gap_chg_bp": 0.0,
-      "oas_accel_bp": 0.0,
-      "oas_date": "2026-09-29"
-    },
-    "label": "помірно на користь TLT"
+  "portfolio": {
+    "core": 70.0,
+    "equity": 0.0,
+    "cta": 0.0,
+    "cash": 30.0
   },
-  "macro": {
-    "states": {
-      "inflation": "decelerating",
-      "labor": "mixed"
+  "model_weights": {
+    "core": 50.0,
+    "equity": 0.0,
+    "cta": 0.0,
+    "cash": 50.0
+  },
+  "target": {
+    "core": 50.0,
+    "equity": 15.0,
+    "cta": 25.0,
+    "cash": 10.0
+  },
+  "actions_this_week": [
+    {
+      "date": "2026-10-01",
+      "block": "core",
+      "from_weight": 70.0,
+      "to_weight": 50.0,
+      "reason": "сходинка −7%: ядро −11.9% від піку 88.45",
+      "when": "2026-10-01 одразу (Стрес)"
     },
-    "metrics": {
-      "cpi_yoy": 3.71,
-      "cpi_yoy_3m_ago": 4.27,
-      "cpi_date": "2026-08-01",
-      "nfp_last_k": 162.0,
-      "nfp_3m_avg_k": 71.0,
-      "unrate": 4.1,
-      "unrate_3m_ago": 4.3,
-      "labor_date": "2026-08-01"
+    {
+      "date": "2026-10-01",
+      "block": "equity",
+      "from_weight": 0.0,
+      "to_weight": 5.0,
+      "reason": "база акцій 15%",
+      "when": "2026-10-02"
+    },
+    {
+      "date": "2026-10-01",
+      "block": "cta",
+      "from_weight": 0.0,
+      "to_weight": 5.0,
+      "reason": "скоринг CTA 10 → 25%",
+      "when": "2026-10-02"
+    }
+  ],
+  "exec_day": "2026-10-02",
+  "core": {
+    "peak": 88.45,
+    "drawdown_pct": -11.87,
+    "ladder_step": 1,
+    "next_step_pct": "−14% → ядро 40%",
+    "paused": false,
+    "pause_until": null,
+    "paused_steps": [],
+    "bottom_signs": [
+      "30Y ≥ 90-го перцентиля за 5 років"
+    ]
+  },
+  "cta_score": {
+    "total": 10,
+    "weight": 25.0,
+    "cut": false,
+    "components": {
+      "tlt_vs_sma200": 2,
+      "sma50_vs_sma200": 2,
+      "y10_chg": 2,
+      "rates_vol": 2,
+      "dbmf_vs_sma100": 2
     }
   },
-  "high_yield": {
-    "score": 0,
-    "max_score": 10,
-    "states": {
-      "price_vs_sma200": "below",
-      "sma_cross": "golden",
-      "macd": "negative",
-      "rsi_divergence": "none",
-      "hy_vs_ig_ratio": "above",
-      "hy_oas_trend": "widening",
-      "hy_oas_regime": "tightening_regime",
-      "ccc_bb_decompression": "decompressing",
-      "vix_regime": "low",
-      "financial_conditions": "stable"
+  "tracks": {
+    "core": {
+      "states": {
+        "vs_sma200": "below",
+        "sma_cross": "death",
+        "downtrend": "yes",
+        "rsi_divergence": "none"
+      },
+      "metrics": {
+        "tlt": 77.95,
+        "sma50": 81.57,
+        "sma200": 84.1,
+        "dist_sma200_pct": -7.31,
+        "sma50_vs_sma200_pct": -3.01,
+        "above_sma200_days": 0,
+        "rsi": 27.2
+      }
     },
-    "context": {
-      "drawdown": "mild",
-      "hy_oas_extreme": "normal",
-      "lending_standards": "easing",
-      "oil_trend": "flat",
-      "range_breakout": "below"
+    "rates": {
+      "metrics": {
+        "y2": 4.89,
+        "y10": 5.26,
+        "y30": 5.59,
+        "y10_chg_20d_bp": 51.0,
+        "rv10y_bp": 5.19,
+        "rv10y_pct_1y": 91.0,
+        "y30_pct_5y": 100.0,
+        "s2s10_bp": 37.0,
+        "s10s30_bp": 33.0
+      }
     },
-    "metrics": {
-      "xuha": 10.48,
-      "sma50": 10.7,
-      "sma200": 10.62,
-      "rsi": 21.9,
-      "drawdown_pct": -3.01,
-      "xuha_suoa_ratio": 2.0499,
-      "hy_oas_bp": 308.0,
-      "hy_oas_chg_bp": 42.0,
-      "hy_oas_z_1y": 1.26,
-      "hy_oas_pct_1y": 85.0,
-      "hy_bb_bp": 189.0,
-      "hy_ccc_bp": 1157.0,
-      "ccc_bb_bp": 968.0,
-      "hy_ig_gap_bp": 224.0,
-      "hy_yield_pct": 8.08,
-      "vix": 16.0,
-      "vix_pct_1y": 27.0,
-      "nfci": -0.55,
-      "nfci_4w_chg": 0.01,
-      "sloos_last": 0.0,
-      "oil": 96.2,
-      "oil_chg_20d_pct": 4.35,
-      "xuha_date": "2026-09-29",
-      "hy_oas_date": "2026-09-29",
-      "nfci_date": "2026-09-25",
-      "sloos_date": "2026-07-01"
+    "stress": {
+      "states": {
+        "stress": "yes",
+        "stress_rates": "yes",
+        "stress_credit": "no",
+        "stress_vix": "no"
+      },
+      "metrics": {
+        "oas_ig_bp": 84.0,
+        "oas_ig_z_1y": 1.07,
+        "vix": 16.3,
+        "vix_pct_1y": 31.0,
+        "hy_oas_bp": 312.0,
+        "nfci": -0.55
+      }
     },
-    "label": "нейтрально"
+    "cta": {
+      "metrics": {
+        "dbmf": 32.72,
+        "sma100": 31.18,
+        "dist_sma100_pct": 4.97,
+        "dbmf_ret20_pct": 3.89,
+        "tlt_ret20_pct": -4.88,
+        "corr60": -0.69,
+        "cut": "no",
+        "dbmf_pa_gap_20d_pct": 0.37
+      }
+    },
+    "equity": {
+      "states": {
+        "vs_sma200": "above"
+      },
+      "metrics": {
+        "ssac": 9238.0,
+        "sma200": 8659.71,
+        "dist_sma200_pct": 6.68,
+        "above_sma200_days": 129
+      }
+    },
+    "macro": {
+      "states": {
+        "inflation": "decelerating",
+        "labor": "mixed"
+      },
+      "metrics": {
+        "cpi_yoy": 3.71,
+        "cpi_yoy_3m_ago": 4.27,
+        "cpi_date": "2026-08-01",
+        "nfp_last_k": 162.0,
+        "nfp_3m_avg_k": 71.0,
+        "unrate": 4.1,
+        "unrate_3m_ago": 4.3,
+        "labor_date": "2026-08-01"
+      }
+    }
   },
+  "actions_since_start": [
+    {
+      "date": "2026-10-01",
+      "block": "core",
+      "from_weight": 70.0,
+      "to_weight": 50.0,
+      "reason": "сходинка −7%: ядро −11.9% від піку 88.45"
+    }
+  ],
   "warnings": [],
   "alerts": [],
   "alert_log": []

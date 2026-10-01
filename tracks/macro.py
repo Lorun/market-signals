@@ -25,14 +25,3 @@ def macro_track(cpi: pd.Series, payrolls: pd.Series, unrate: pd.Series) -> dict:
     }
     return {"states": states, "metrics": metrics}
 
-
-def label(score: int, mx: int) -> str:
-    if score >= mx * 0.5:
-        return "сильно на користь TLT"
-    if score > 0:
-        return "помірно на користь TLT"
-    if score <= -mx * 0.5:
-        return "сильно на користь SUOA"
-    if score < 0:
-        return "помірно на користь SUOA"
-    return "нейтрально"
