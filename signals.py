@@ -58,17 +58,30 @@ def last_us_session(now_utc: pd.Timestamp) -> pd.Timestamp:
     return d
 
 
+def series_name(k: str, cfg: dict) -> str:
+    return cfg.get("yahoo_series", {}).get(k) or cfg["fred"][k]
+
+
 def data_dates(prices: pd.DataFrame, fred: dict, cfg: dict) -> dict:
-    """Остання дата кожного ряду — щоб у логах Action і в signals.json було видно, яких даних ще немає."""
+    """Остання дата кожного ряду (до затримки FRED) — щоб у логах Action і в signals.json
+    було видно, яких даних ще немає."""
     out = {cfg["tickers"][k]: str(prices[k].dropna().index[-1].date()) for k in cfg["tickers"]}
-    out.update({cfg["fred"][k]: str(s.dropna().index[-1].date()) for k, s in fred.items() if len(s.dropna())})
+    out.update({series_name(k, cfg): str(s.dropna().index[-1].date()) for k, s in fred.items() if len(s.dropna())})
     return out
+
+
+def used_date(s: pd.Series, as_of: pd.Timestamp, cfg: dict) -> str:
+    """Дата спостереження ряду FRED, яке рушій використав для дня as_of (з урахуванням затримки)."""
+    s = s.dropna()
+    s = s[s.index <= as_of - pd.offsets.BDay(cfg.get("fred_lag", {}).get("days", 0))]
+    return str(s.index[-1].date()) if len(s) else None
 
 
 def data_warnings(prices: pd.DataFrame, fred: dict, df: pd.DataFrame, cfg: dict, today: pd.Timestamp) -> list[str]:
     p, out = cfg["params"], []
     checks = [(cfg["tickers"][k], prices[k], p["stale_days"]) for k in cfg["tickers"]]
-    checks += [(cfg["fred"][k], fred[k], p["stale_days"]) for k in ("y2", "y10", "y30", "tbill", "oas_ig", "vix")]
+    checks += [(series_name(k, cfg), fred[k], p["stale_days"])
+               for k in ("y10", "y30", "vix", "y2", "y10_fred", "tbill", "oas_ig")]
     checks += [(cfg["fred"]["nfci"], fred["nfci"], p["stale_days_weekly"])]
     checks += [(cfg["fred"][k], fred[k], p["stale_days_monthly"]) for k in ("cpi", "payrolls", "unrate")]
     for name, s, max_age in checks:
@@ -83,11 +96,22 @@ def data_warnings(prices: pd.DataFrame, fred: dict, df: pd.DataFrame, cfg: dict,
         if jumps:
             out.append(f"{cfg['tickers'][k]}: стрибок ціни >50% за день ({', '.join(jumps[-3:])}) — "
                        "можлива зміна одиниць котирування")
+    filled = prices.attrs.get("intraday_filled", {})
+    if filled:
+        days = sorted({d for v in filled.values() for d in v})
+        out.append(f"{', '.join(filled)}: денного закриття {', '.join(days)} на Yahoo ще немає — взято останню "
+                   "погодинну ціну (наступний запуск замінить офіційним закриттям)")
     core_last = prices["core"].dropna().index[-1]
     expected = last_us_session(pd.Timestamp.now(tz="UTC"))
     if core_last < expected:
         out.append(f"{cfg['tickers']['core']}: Yahoo ще не віддав закриття {expected.date()} (останнє {core_last.date()}) "
                    "— звіт за попередній день; наступний запуск доповнить (якщо це не свято NYSE)")
+    both = pd.concat([fred["y10"], fred["y10_fred"]], axis=1).dropna()
+    if len(both):
+        d = (both.iloc[-1, 0] - both.iloc[-1, 1]) * 100
+        if abs(d) > p["y10_check_bp"]:
+            out.append(f"{series_name('y10', cfg)} і DGS10 розійшлись на {d:+.0f} б.п. ({both.index[-1].date()}) "
+                       "— перевірте дані Yahoo")
     gap = df["cta_exec_gap_pct"].dropna()
     if len(gap) and abs(gap.iloc[-1]) > p["cta_exec_gap_pct"]:
         out.append(f"DBMF.PA і DBMF розійшлись за 20 днів на {gap.iloc[-1]:+.1f}% (поріг {p['cta_exec_gap_pct']}%)")
@@ -118,6 +142,7 @@ def track_snapshot(row: pd.Series, fred: dict, cfg: dict) -> dict:
         "stress": {
             "states": {k: yn(row[k]) for k in ("stress", "stress_rates", "stress_credit", "stress_vix")},
             "metrics": {"oas_ig_bp": r(row["credit_bp"], 1), "oas_ig_z_1y": r(row["credit_z"]),
+                        "oas_ig_date": used_date(fred["oas_ig"], row.name, cfg),
                         "vix": r(row["vix"], 1), "vix_pct_1y": r(row["vix_pct_1y"], 0),
                         "hy_oas_bp": r(hy.iloc[-1] * 100, 0) if len(hy) else None,
                         "nfci": r(nfci.iloc[-1]) if len(nfci) else None},
@@ -203,7 +228,8 @@ def format_message(sig: dict) -> str:
         + ", ".join(f"{CTA_UA[k]} {v}" for k, v in sig["cta_score"]["components"].items()) + ")",
         f"TLT {T['core']['metrics']['dist_sma200_pct']:+.1f}% від SMA200 · "
         f"10Y {T['rates']['metrics']['y10']}% ({T['rates']['metrics']['y10_chg_20d_bp']:+} б.п. за 20д) · "
-        f"IG OAS z {T['stress']['metrics']['oas_ig_z_1y']} · VIX {T['stress']['metrics']['vix']}",
+        f"IG OAS z {T['stress']['metrics']['oas_ig_z_1y']} (дані за {T['stress']['metrics']['oas_ig_date']}) · "
+        f"VIX {T['stress']['metrics']['vix']}",
         f"ISAC {T['equity']['metrics']['dist_sma200_pct']:+.1f}% від SMA200",
     ]
     if sig["warnings"]:

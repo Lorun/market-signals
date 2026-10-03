@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from sources import align
+from sources import align, lag_series
 from tracks import core_track, rates_track, stress_track, credit_metrics, vix_metrics, cta_track, equity_track
 
 BLOCKS = ("core", "equity", "cta", "cash")
@@ -28,6 +28,8 @@ def build_inputs(blocks: pd.DataFrame, fred: dict[str, pd.Series], cfg: dict,
     fred — сирі ряди FRED; credit_key — ряд для умови Стресу IG OAS (у бектесті — baa10y)."""
     p, s = cfg["params"], cfg["strategy"]
     lim = p["ffill_limit"]
+    lag = cfg.get("fred_lag", {})
+    fred = {k: lag_series(v, lag.get("days", 0)) if k in lag.get("series", []) else v for k, v in fred.items()}
     core = blocks["core"].dropna()
     idx = core.index
 

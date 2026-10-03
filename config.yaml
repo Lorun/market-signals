@@ -24,20 +24,33 @@ proxies:
 # (перцентиль 30Y за 5 років + SMA200 + запас до стартової дати portfolio.yaml).
 history_days: 2700
 
+# Швидкі ринкові ряди з Yahoo: доступні того ж вечора (FRED публікує їх лише наступного робочого дня).
+# ^TNX/^TYX — дохідності CBOE, відрізняються від FRED DGS10/DGS30 у середньому на ~0,7 б.п.;
+# ^VIX — той самий індекс CBOE, що й FRED VIXCLS.
+yahoo_series:
+  y10: ^TNX             # 10Y Treasury
+  y30: ^TYX             # 30Y Treasury
+  vix: ^VIX             # VIX
+
 fred:
-  y2: DGS2              # 2Y Treasury
-  y10: DGS10            # 10Y Treasury
-  y30: DGS30            # 30Y Treasury
+  y2: DGS2              # 2Y Treasury (лише нахил кривої, контекст)
+  y10_fred: DGS10       # 10Y з FRED — лише звірка з ^TNX
   tbill: DTB3           # 3M T-bill (проксі кешу в бектесті)
   oas_ig: BAMLC0A0CM    # ICE BofA US Corporate OAS (на FRED лише ~3 роки)
   oas_bbb: BAMLC0A4CBBB # ICE BofA BBB OAS (контекст)
   baa10y: BAA10Y        # Moody's Baa − 10Y: проксі IG OAS для бектесту
   hy_oas: BAMLH0A0HYM2  # ICE BofA US High Yield OAS (контекст стресу)
-  vix: VIXCLS           # VIX
   nfci: NFCI            # Chicago Fed financial conditions (тижневий)
   cpi: CPIAUCSL         # CPI (місячний)
   payrolls: PAYEMS      # Nonfarm payrolls (місячний)
   unrate: UNRATE        # Безробіття (місячний)
+
+# Щоденні ряди FRED виходять наступного робочого дня → для сигналів беремо їх із фіксованою
+# затримкою (значення за день D діє з D+1). Так рішення за минулі дні не змінюються заднім числом,
+# а бектест бачить лише те, що було доступно в момент сигналу.
+fred_lag:
+  days: 1
+  series: [y2, oas_ig, oas_bbb, baa10y, hy_oas]
 
 params:
   sma_fast: 50
@@ -58,6 +71,7 @@ params:
   stale_days_monthly: 75    # для місячних (CPI, NFP)
   ffill_limit: 5            # вирівнювання LSE/Paris/FRED на календар NYSE
   cta_exec_gap_pct: 2       # попередження, якщо DBMF.PA і DBMF розійшлись за 20д більше ніж на N%
+  y10_check_bp: 10          # попередження, якщо ^TNX і DGS10 розійшлись у спільний день більше ніж на N б.п.
 
 # Правила стратегії — docs/strategy.md. Ваги в % портфеля.
 strategy:

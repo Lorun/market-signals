@@ -84,3 +84,28 @@ def test_build_inputs_demo():
                                     ["tlt_vs_sma200", "sma50_vs_sma200", "y10_chg", "rates_vol", "dbmf_vs_sma100"])
     for col in ("stress", "stress_rates", "stress_credit", "stress_vix", "core_above_streak", "eq_above_streak"):
         assert col in df
+
+
+def test_lag_series_next_business_day():
+    from sources import lag_series
+    idx = pd.to_datetime(["2026-10-01", "2026-10-02"])          # чт, пт
+    out = lag_series(pd.Series([1.0, 2.0], idx), 1)
+    assert out.index.tolist() == pd.to_datetime(["2026-10-02", "2026-10-05"]).tolist()   # пт → пн
+
+
+def test_build_inputs_applies_fred_lag_only_to_listed_series():
+    prices, fred = demo_data(CFG)
+    blocks = build_block_prices(prices, fred, CFG, backtest=False)
+    df = build_inputs(blocks, fred, CFG)
+    d = df.index[-5]
+    prev = df.index[df.index < d][-1]
+    assert df.loc[d, "credit_bp"] == pytest.approx(fred["oas_ig"].loc[prev] * 100)   # IG OAS — вчорашній
+    assert df.loc[d, "vix"] == pytest.approx(fred["vix"].loc[d])                     # VIX — того ж дня
+    assert df.loc[d, "y10"] == pytest.approx(fred["y10"].loc[d])                     # 10Y — того ж дня
+
+
+def test_lag_series_weekend_observation_no_duplicates():
+    from sources import lag_series
+    idx = pd.to_datetime(["2026-10-02", "2026-10-03"])          # пт, сб
+    out = lag_series(pd.Series([1.0, 2.0], idx), 1)
+    assert out.index.is_unique and out.loc["2026-10-05"] == 2.0
