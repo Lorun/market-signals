@@ -14,11 +14,11 @@
 ## Як це працює
 
 ```
-GitHub Actions (cron, Пн–Пт 22:30 UTC)
+GitHub Actions (cron: Пн–Пт 22:30 UTC + повтор Вт–Сб 07:00 UTC)
   └─ signals.py: FRED + yfinance → треки по днях (inputs.py)
        → рушій правил (engine.py) від portfolio.yaml до сьогодні
        → data/signals.json, data/history.csv
-       ├─ змінився режим / сходинка / ціль / з'явились угоди → Telegram
+       ├─ змінився режим / сходинка / ціль / угоди, або тижневий сигнал став остаточним → Telegram
        └─ commit у репо
 Claude scheduled task (щотижня) → weekly_brief_prompt.md → бриф українською
 backtest.py (вручну) → data/backtest/
@@ -69,7 +69,7 @@ core_peak: auto   # максимум TLT за 252 дні до as_of; або чи
 
 ## Виходи
 - `data/signals.json` — `regime` (+ кандидат і лічильник), `portfolio` (ваги до угод тижня),
-  `model_weights` (після), `target`, `signal_day`/`execute_on`/`signal_final`, `actions_this_week` (угоди, виконання яких припадає на цей тиждень: `signal_date` — дата даних, `when` — коли виконати, `urgent`, `preliminary` — прогноз до тижневого сигналу, `reason`), `core` (пік, просадка,
+  `model_weights` (після), `target`, `signal_day`/`execute_on`/`signal_final`, `actions_this_week` (угоди, виконання яких припадає на цей тиждень: `signal_date` — дата даних, `when` — коли виконати, `urgent`, `preliminary` — прогноз до тижневого сигналу, `reason`), `data_dates` (остання дата кожного ряду), `core` (пік, просадка,
   сходинка, пауза, ознаки дна), `cta_score` з розкладом, `tracks`, `warnings`, `alert_log`.
 - `data/history.csv` — дата, режим, модельні ваги, просадка ядра, скоринг CTA, 10Y, IG OAS, VIX.
 - `data/backtest/` — `equity_curve.csv`, `actions.csv`, `summary.md`.
@@ -117,6 +117,8 @@ config.yaml     — тікери, проксі, серії FRED, вікна ін
 
 ## Застереження
 - Акції — `ISAC.L` (LSE, USD). `SSAC.L` — той самий фонд у GBp: його ряд містить курс GBP/USD, тому не підходить.
+- Yahoo інколи віддає закриття дня із запізненням на кілька годин. Тоді звіт будується за попередній день
+  з попередженням у `warnings`, а ранковий повторний запуск (07:00 UTC) доганяє дані.
 - Ціни скориговані (з дивідендами). Різні біржі (NYSE/LSE/Paris) вирівнюються на календар NYSE з `ffill(limit=5)`.
 - У перші дні лістингу Yahoo має глюки цін (IB01.L 2019-02-22): стики проксі зсунуто,
   а денні рухи > 50% у рядах ETF обнуляються; у живому звіті такий стрибок дає попередження.

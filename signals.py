@@ -49,6 +49,22 @@ CTA_UA = {
 
 # ───────────────────────────── перевірки даних ─────────────────────────────
 
+def last_us_session(now_utc: pd.Timestamp) -> pd.Timestamp:
+    """Останній робочий день, торги якого в США вже завершились (закриття 16:00 ET ≈ 20:00–21:00 UTC).
+    Свята NYSE не враховуються — тому це лише попередження."""
+    d = now_utc.tz_localize(None).normalize()
+    if now_utc.hour < 21 or d.weekday() >= 5:
+        d -= pd.offsets.BDay(1)
+    return d
+
+
+def data_dates(prices: pd.DataFrame, fred: dict, cfg: dict) -> dict:
+    """Остання дата кожного ряду — щоб у логах Action і в signals.json було видно, яких даних ще немає."""
+    out = {cfg["tickers"][k]: str(prices[k].dropna().index[-1].date()) for k in cfg["tickers"]}
+    out.update({cfg["fred"][k]: str(s.dropna().index[-1].date()) for k, s in fred.items() if len(s.dropna())})
+    return out
+
+
 def data_warnings(prices: pd.DataFrame, fred: dict, df: pd.DataFrame, cfg: dict, today: pd.Timestamp) -> list[str]:
     p, out = cfg["params"], []
     checks = [(cfg["tickers"][k], prices[k], p["stale_days"]) for k in cfg["tickers"]]
@@ -67,6 +83,11 @@ def data_warnings(prices: pd.DataFrame, fred: dict, df: pd.DataFrame, cfg: dict,
         if jumps:
             out.append(f"{cfg['tickers'][k]}: стрибок ціни >50% за день ({', '.join(jumps[-3:])}) — "
                        "можлива зміна одиниць котирування")
+    core_last = prices["core"].dropna().index[-1]
+    expected = last_us_session(pd.Timestamp.now(tz="UTC"))
+    if core_last < expected:
+        out.append(f"{cfg['tickers']['core']}: Yahoo ще не віддав закриття {expected.date()} (останнє {core_last.date()}) "
+                   "— звіт за попередній день; наступний запуск доповнить (якщо це не свято NYSE)")
     gap = df["cta_exec_gap_pct"].dropna()
     if len(gap) and abs(gap.iloc[-1]) > p["cta_exec_gap_pct"]:
         out.append(f"DBMF.PA і DBMF розійшлись за 20 днів на {gap.iloc[-1]:+.1f}% (поріг {p['cta_exec_gap_pct']}%)")
@@ -286,6 +307,7 @@ def main() -> int:
         "tracks": track_snapshot(row, fred, cfg),
         "actions_since_start": [a.as_dict() for a in actions],
         "warnings": warnings,
+        "data_dates": data_dates(prices, fred, cfg),
     }
 
     prev_sig = json.loads(SIGNALS.read_text(encoding="utf-8")) if SIGNALS.exists() else None
@@ -309,7 +331,11 @@ def main() -> int:
 
     msg = format_message(sig)
     print(msg)
-    if not args.no_notify and (alerts or cfg.get("telegram", {}).get("daily_summary") or prev_sig is None):
+    print("\nДані станом на:", ", ".join(f"{k} {v}" for k, v in sig["data_dates"].items()))
+    weekly_final = sig["signal_final"] and not ((prev_sig or {}).get("signal_final")
+                                                and prev_sig.get("signal_day") == sig["signal_day"])
+    if not args.no_notify and (alerts or weekly_final or cfg.get("telegram", {}).get("daily_summary")
+                               or prev_sig is None):
         telegram(msg)
     return 0
 
