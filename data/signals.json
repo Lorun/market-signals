@@ -1,7 +1,7 @@
 {
   "as_of": "2026-10-09",
-  "generated_utc": "2026-10-10T06:37:27+00:00",
-  "portfolio_as_of": "2026-10-01",
+  "generated_utc": "2026-10-10T13:20:08+00:00",
+  "portfolio_as_of": "2026-10-05",
   "regime": {
     "current": "stress",
     "label": "🔴 Стрес",
@@ -10,16 +10,16 @@
     "confirm_days": 5
   },
   "portfolio": {
-    "core": 50.0,
-    "equity": 0.0,
-    "cta": 0.0,
-    "cash": 49.9
+    "core": 50.3,
+    "equity": 5.0,
+    "cta": 5.0,
+    "cash": 39.8
   },
   "model_weights": {
-    "core": 50.0,
+    "core": 50.3,
     "equity": 10.0,
     "cta": 10.0,
-    "cash": 29.9
+    "cash": 29.8
   },
   "target": {
     "core": 50.0,
@@ -28,28 +28,6 @@
     "cash": 10.0
   },
   "actions_this_week": [
-    {
-      "date": "2026-10-02",
-      "block": "equity",
-      "from_weight": 0.0,
-      "to_weight": 5.0,
-      "reason": "база акцій 15%",
-      "signal_date": "2026-10-02",
-      "when": "2026-10-05",
-      "urgent": false,
-      "preliminary": false
-    },
-    {
-      "date": "2026-10-02",
-      "block": "cta",
-      "from_weight": 0.0,
-      "to_weight": 5.0,
-      "reason": "CTA до цілі 25% (скоринг 10)",
-      "signal_date": "2026-10-02",
-      "when": "2026-10-05",
-      "urgent": false,
-      "preliminary": false
-    },
     {
       "date": "2026-10-09",
       "block": "equity",
@@ -190,27 +168,6 @@
   },
   "actions_since_start": [
     {
-      "date": "2026-10-01",
-      "block": "core",
-      "from_weight": 70.0,
-      "to_weight": 50.0,
-      "reason": "сходинка −7%: ядро −11.8% від піку 88.09"
-    },
-    {
-      "date": "2026-10-02",
-      "block": "equity",
-      "from_weight": 0.0,
-      "to_weight": 5.0,
-      "reason": "база акцій 15%"
-    },
-    {
-      "date": "2026-10-02",
-      "block": "cta",
-      "from_weight": 0.0,
-      "to_weight": 5.0,
-      "reason": "CTA до цілі 25% (скоринг 10)"
-    },
-    {
       "date": "2026-10-09",
       "block": "equity",
       "from_weight": 5.0,
@@ -249,7 +206,13 @@
     "^TYX": "2026-10-09",
     "^VIX": "2026-10-09"
   },
-  "alerts": [],
+  "alerts": [
+    {
+      "what": "угоди тижня",
+      "from": 4,
+      "to": 2
+    }
+  ],
   "alert_log": [
     {
       "date": "2026-10-02",
@@ -292,6 +255,12 @@
       "what": "угоди тижня",
       "from": 4,
       "to": 4
+    },
+    {
+      "date": "2026-10-09",
+      "what": "угоди тижня",
+      "from": 4,
+      "to": 2
     }
   ]
 }
