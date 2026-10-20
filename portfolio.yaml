@@ -2,8 +2,8 @@
 # Живий звіт проганяє рушій від as_of до сьогодні, починаючи з цих ваг.
 as_of: 2026-10-05
 weights:          # % портфеля
-  core: 50        # TLT + VGLT
-  cash: 30        # VDST 15 + кеш 15
-  cta: 10
-  equity: 10
+  core: 50        # TLT
+  cash: 20        # VDST 15 + кеш 5
+  cta: 15
+  equity: 15
 core_peak: auto   # auto = максимум скоригованого TLT за 252 дні до as_of; або число
