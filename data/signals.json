@@ -1,7 +1,7 @@
 {
   "as_of": "2026-10-26",
-  "generated_utc": "2026-10-27T01:36:00+00:00",
-  "portfolio_as_of": "2026-10-05",
+  "generated_utc": "2026-10-27T06:46:21+00:00",
+  "portfolio_as_of": "2026-10-19",
   "regime": {
     "current": "stress",
     "label": "🔴 Стрес",
@@ -10,16 +10,16 @@
     "confirm_days": 5
   },
   "portfolio": {
-    "core": 51.7,
-    "equity": 14.4,
-    "cta": 19.3,
-    "cash": 14.6
+    "core": 50.8,
+    "equity": 14.7,
+    "cta": 14.7,
+    "cash": 19.8
   },
   "model_weights": {
-    "core": 51.7,
-    "equity": 14.4,
-    "cta": 14.9,
-    "cash": 19.0
+    "core": 50.8,
+    "equity": 14.7,
+    "cta": 14.7,
+    "cash": 19.8
   },
   "target": {
     "core": 50.0,
@@ -27,19 +27,7 @@
     "cta": 15.0,
     "cash": 20.0
   },
-  "actions_this_week": [
-    {
-      "date": "2026-10-23",
-      "block": "cta",
-      "from_weight": 19.4,
-      "to_weight": 15.0,
-      "reason": "CTA до цілі 15% (скоринг 7)",
-      "signal_date": "2026-10-23",
-      "when": "2026-10-26",
-      "urgent": false,
-      "preliminary": false
-    }
-  ],
+  "actions_this_week": [],
   "signal_day": "2026-10-30",
   "signal_final": false,
   "execute_on": "2026-11-02",
@@ -155,22 +143,7 @@
       }
     }
   },
-  "actions_since_start": [
-    {
-      "date": "2026-10-09",
-      "block": "cta",
-      "from_weight": 14.9,
-      "to_weight": 19.9,
-      "reason": "CTA до цілі 25% (скоринг 10)"
-    },
-    {
-      "date": "2026-10-23",
-      "block": "cta",
-      "from_weight": 19.4,
-      "to_weight": 15.0,
-      "reason": "CTA до цілі 15% (скоринг 7)"
-    }
-  ],
+  "actions_since_start": [],
   "warnings": [
     "DBMF.PA, ISAC.L, IB01.L: денного закриття 2026-10-26 на Yahoo ще немає — взято останню погодинну ціну (наступний запуск замінить офіційним закриттям)"
   ],
@@ -195,13 +168,7 @@
     "^TYX": "2026-10-26",
     "^VIX": "2026-10-26"
   },
-  "alerts": [
-    {
-      "what": "режим",
-      "from": "rates_up",
-      "to": "stress"
-    }
-  ],
+  "alerts": [],
   "alert_log": [
     {
       "date": "2026-10-02",
