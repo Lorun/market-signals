@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-10-26",
-  "generated_utc": "2026-10-27T13:01:38+00:00",
+  "as_of": "2026-10-27",
+  "generated_utc": "2026-10-28T01:35:21+00:00",
   "portfolio_as_of": "2026-10-19",
   "regime": {
     "current": "stress",
@@ -10,14 +10,14 @@
     "confirm_days": 5
   },
   "portfolio": {
-    "core": 50.8,
-    "equity": 14.7,
+    "core": 50.7,
+    "equity": 14.8,
     "cta": 14.7,
     "cash": 19.8
   },
   "model_weights": {
-    "core": 50.8,
-    "equity": 14.7,
+    "core": 50.7,
+    "equity": 14.8,
     "cta": 14.7,
     "cash": 19.8
   },
@@ -33,7 +33,7 @@
   "execute_on": "2026-11-02",
   "core": {
     "peak": 88.09,
-    "drawdown_pct": -7.28,
+    "drawdown_pct": -7.34,
     "ladder_step": 1,
     "next_step_pct": "−14% → ядро 40%",
     "paused": false,
@@ -64,26 +64,26 @@
         "rsi_divergence": "none"
       },
       "metrics": {
-        "tlt": 81.68,
-        "sma50": 80.27,
-        "sma200": 83.3,
-        "dist_sma200_pct": -1.94,
-        "sma50_vs_sma200_pct": -3.63,
+        "tlt": 81.63,
+        "sma50": 80.29,
+        "sma200": 83.28,
+        "dist_sma200_pct": -1.98,
+        "sma50_vs_sma200_pct": -3.59,
         "above_sma200_days": 0,
-        "rsi": 65.3
+        "rsi": 64.7
       }
     },
     "rates": {
       "metrics": {
-        "y2": 4.69,
+        "y2": 4.68,
         "y10": 4.99,
         "y30": 5.3,
-        "y10_chg_20d_bp": -25.4,
-        "rv10y_bp": 5.67,
-        "rv10y_pct_1y": 98.0,
+        "y10_chg_20d_bp": -26.2,
+        "rv10y_bp": 5.65,
+        "rv10y_pct_1y": 97.0,
         "y30_pct_5y": 98.0,
-        "s2s10_bp": 29.6,
-        "s10s30_bp": 31.5
+        "s2s10_bp": 31.3,
+        "s10s30_bp": 31.2
       }
     },
     "stress": {
@@ -94,25 +94,25 @@
         "stress_vix": "no"
       },
       "metrics": {
-        "oas_ig_bp": 91.0,
-        "oas_ig_z_1y": 2.53,
-        "oas_ig_date": "2026-10-23",
-        "vix": 18.4,
-        "vix_pct_1y": 67.0,
-        "hy_oas_bp": 338.0,
+        "oas_ig_bp": 90.0,
+        "oas_ig_z_1y": 2.27,
+        "oas_ig_date": "2026-10-26",
+        "vix": 17.5,
+        "vix_pct_1y": 57.0,
+        "hy_oas_bp": 330.0,
         "nfci": -0.5
       }
     },
     "cta": {
       "metrics": {
-        "dbmf": 32.68,
-        "sma100": 31.5,
-        "dist_sma100_pct": 3.73,
-        "dbmf_ret20_pct": 0.21,
-        "tlt_ret20_pct": 4.31,
+        "dbmf": 32.79,
+        "sma100": 31.52,
+        "dist_sma100_pct": 4.03,
+        "dbmf_ret20_pct": 1.11,
+        "tlt_ret20_pct": 4.77,
         "corr60": -0.77,
         "cut": "no",
-        "dbmf_pa_gap_20d_pct": -0.26
+        "dbmf_pa_gap_20d_pct": -0.4
       }
     },
     "equity": {
@@ -120,10 +120,10 @@
         "vs_sma200": "above"
       },
       "metrics": {
-        "ssac": 121.86,
-        "sma200": 117.66,
-        "dist_sma200_pct": 3.57,
-        "above_sma200_days": 144
+        "ssac": 122.6,
+        "sma200": 117.72,
+        "dist_sma200_pct": 4.15,
+        "above_sma200_days": 145
       }
     },
     "macro": {
@@ -144,20 +144,22 @@
     }
   },
   "actions_since_start": [],
-  "warnings": [],
+  "warnings": [
+    "DBMF.PA, ISAC.L, IB01.L: денного закриття 2026-10-27 на Yahoo ще немає — взято останню погодинну ціну (наступний запуск замінить офіційним закриттям)"
+  ],
   "data_dates": {
-    "TLT": "2026-10-26",
-    "DBMF": "2026-10-26",
+    "TLT": "2026-10-27",
+    "DBMF": "2026-10-27",
     "DBMF.PA": "2026-10-27",
     "ISAC.L": "2026-10-27",
     "IB01.L": "2026-10-27",
-    "DGS2": "2026-10-23",
-    "DGS10": "2026-10-23",
-    "DTB3": "2026-10-23",
-    "BAMLC0A0CM": "2026-10-23",
-    "BAMLC0A4CBBB": "2026-10-23",
-    "BAA10Y": "2026-10-23",
-    "BAMLH0A0HYM2": "2026-10-23",
+    "DGS2": "2026-10-26",
+    "DGS10": "2026-10-26",
+    "DTB3": "2026-10-26",
+    "BAMLC0A0CM": "2026-10-26",
+    "BAMLC0A4CBBB": "2026-10-26",
+    "BAA10Y": "2026-10-26",
+    "BAMLH0A0HYM2": "2026-10-26",
     "NFCI": "2026-10-16",
     "CPIAUCSL": "2026-09-01",
     "PAYEMS": "2026-09-01",
