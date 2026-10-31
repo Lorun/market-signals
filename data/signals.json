@@ -1,6 +1,6 @@
 {
   "as_of": "2026-10-30",
-  "generated_utc": "2026-10-31T01:45:21+00:00",
+  "generated_utc": "2026-10-31T13:24:11+00:00",
   "portfolio_as_of": "2026-10-19",
   "regime": {
     "current": "stress",
@@ -112,7 +112,7 @@
         "tlt_ret20_pct": 5.63,
         "corr60": -0.8,
         "cut": "no",
-        "dbmf_pa_gap_20d_pct": 1.28
+        "dbmf_pa_gap_20d_pct": 1.08
       }
     },
     "equity": {
@@ -120,7 +120,7 @@
         "vs_sma200": "above"
       },
       "metrics": {
-        "ssac": 120.83,
+        "ssac": 120.82,
         "sma200": 117.88,
         "dist_sma200_pct": 2.5,
         "above_sma200_days": 148
@@ -144,9 +144,7 @@
     }
   },
   "actions_since_start": [],
-  "warnings": [
-    "DBMF.PA, ISAC.L, IB01.L: денного закриття 2026-10-30 на Yahoo ще немає — взято останню погодинну ціну (наступний запуск замінить офіційним закриттям)"
-  ],
+  "warnings": [],
   "data_dates": {
     "TLT": "2026-10-30",
     "DBMF": "2026-10-30",
