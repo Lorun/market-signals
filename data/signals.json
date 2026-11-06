@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-05",
-  "generated_utc": "2026-11-06T02:46:10+00:00",
+  "as_of": "2026-11-06",
+  "generated_utc": "2026-11-06T14:50:18+00:00",
   "portfolio_as_of": "2026-10-19",
   "regime": {
     "current": "stress",
@@ -10,42 +10,30 @@
     "confirm_days": 5
   },
   "portfolio": {
-    "core": 51.4,
-    "equity": 14.5,
-    "cta": 14.1,
+    "core": 51.3,
+    "equity": 14.3,
+    "cta": 14.4,
     "cash": 20.0
   },
   "model_weights": {
-    "core": 51.4,
-    "equity": 14.5,
-    "cta": 14.1,
+    "core": 51.3,
+    "equity": 14.3,
+    "cta": 14.4,
     "cash": 20.0
   },
   "target": {
     "core": 50.0,
     "equity": 15.0,
-    "cta": 10.0,
-    "cash": 25.0
+    "cta": 15.0,
+    "cash": 20.0
   },
-  "actions_this_week": [
-    {
-      "date": "2026-11-05",
-      "block": "cta",
-      "from_weight": 14.1,
-      "to_weight": 10.0,
-      "reason": "CTA до цілі 10% (скоринг 5)",
-      "signal_date": "2026-11-05",
-      "when": "2026-11-09",
-      "urgent": false,
-      "preliminary": true
-    }
-  ],
+  "actions_this_week": [],
   "signal_day": "2026-11-06",
-  "signal_final": false,
+  "signal_final": true,
   "execute_on": "2026-11-09",
   "core": {
     "peak": 88.45,
-    "drawdown_pct": -7.37,
+    "drawdown_pct": -7.57,
     "ladder_step": 1,
     "next_step_pct": "−14% → ядро 40%",
     "paused": false,
@@ -56,15 +44,15 @@
     ]
   },
   "cta_score": {
-    "total": 5,
-    "weight": 10.0,
+    "total": 6,
+    "weight": 15.0,
     "cut": false,
     "components": {
       "tlt_vs_sma200": 1,
       "sma50_vs_sma200": 2,
       "y10_chg": 0,
       "rates_vol": 2,
-      "dbmf_vs_sma100": 0
+      "dbmf_vs_sma100": 1
     }
   },
   "tracks": {
@@ -76,26 +64,26 @@
         "rsi_divergence": "none"
       },
       "metrics": {
-        "tlt": 81.93,
-        "sma50": 80.38,
-        "sma200": 83.46,
-        "dist_sma200_pct": -1.83,
+        "tlt": 81.75,
+        "sma50": 80.36,
+        "sma200": 83.44,
+        "dist_sma200_pct": -2.03,
         "sma50_vs_sma200_pct": -3.69,
         "above_sma200_days": 0,
-        "rsi": 61.4
+        "rsi": 59.5
       }
     },
     "rates": {
       "metrics": {
         "y2": 4.58,
-        "y10": 4.84,
-        "y30": 5.25,
-        "y10_chg_20d_bp": -39.4,
-        "rv10y_bp": 5.88,
+        "y10": 4.87,
+        "y30": 5.27,
+        "y10_chg_20d_bp": -37.6,
+        "rv10y_bp": 5.95,
         "rv10y_pct_1y": 100.0,
         "y30_pct_5y": 96.0,
         "s2s10_bp": 25.7,
-        "s10s30_bp": 41.4
+        "s10s30_bp": 39.8
       }
     },
     "stress": {
@@ -109,33 +97,33 @@
         "oas_ig_bp": 91.0,
         "oas_ig_z_1y": 2.27,
         "oas_ig_date": "2026-11-04",
-        "vix": 28.2,
-        "vix_pct_1y": 98.0,
+        "vix": 26.3,
+        "vix_pct_1y": 96.0,
         "hy_oas_bp": 332.0,
         "nfci": -0.46
       }
     },
     "cta": {
       "metrics": {
-        "dbmf": 31.08,
-        "sma100": 31.52,
-        "dist_sma100_pct": -1.41,
-        "dbmf_ret20_pct": -5.56,
-        "tlt_ret20_pct": 5.21,
-        "corr60": -0.75,
+        "dbmf": 31.65,
+        "sma100": 31.54,
+        "dist_sma100_pct": 0.34,
+        "dbmf_ret20_pct": -4.54,
+        "tlt_ret20_pct": 4.83,
+        "corr60": -0.72,
         "cut": "no",
-        "dbmf_pa_gap_20d_pct": -0.74
+        "dbmf_pa_gap_20d_pct": -0.23
       }
     },
     "equity": {
       "states": {
-        "vs_sma200": "above"
+        "vs_sma200": "below"
       },
       "metrics": {
-        "ssac": 119.26,
-        "sma200": 118.08,
-        "dist_sma200_pct": 1.0,
-        "above_sma200_days": 152
+        "ssac": 117.43,
+        "sma200": 118.11,
+        "dist_sma200_pct": -0.58,
+        "above_sma200_days": 0
       }
     },
     "macro": {
@@ -156,15 +144,13 @@
     }
   },
   "actions_since_start": [],
-  "warnings": [
-    "DBMF.PA, ISAC.L, IB01.L: денного закриття 2026-11-05 на Yahoo ще немає — взято останню погодинну ціну (наступний запуск замінить офіційним закриттям)"
-  ],
+  "warnings": [],
   "data_dates": {
-    "TLT": "2026-11-05",
-    "DBMF": "2026-11-05",
-    "DBMF.PA": "2026-11-05",
-    "ISAC.L": "2026-11-05",
-    "IB01.L": "2026-11-05",
+    "TLT": "2026-11-06",
+    "DBMF": "2026-11-06",
+    "DBMF.PA": "2026-11-06",
+    "ISAC.L": "2026-11-06",
+    "IB01.L": "2026-11-06",
     "DGS2": "2026-11-04",
     "DGS10": "2026-11-04",
     "DTB3": "2026-11-04",
@@ -176,15 +162,20 @@
     "CPIAUCSL": "2026-09-01",
     "PAYEMS": "2026-09-01",
     "UNRATE": "2026-09-01",
-    "^TNX": "2026-11-05",
-    "^TYX": "2026-11-05",
-    "^VIX": "2026-11-05"
+    "^TNX": "2026-11-06",
+    "^TYX": "2026-11-06",
+    "^VIX": "2026-11-06"
   },
   "alerts": [
     {
-      "what": "угоди тижня",
-      "from": 1,
-      "to": 1
+      "what": "ціль CTA",
+      "from": 10.0,
+      "to": 15.0
+    },
+    {
+      "what": "ціль Кеш",
+      "from": 25.0,
+      "to": 20.0
     }
   ],
   "alert_log": [
@@ -361,6 +352,18 @@
       "what": "угоди тижня",
       "from": 1,
       "to": 1
+    },
+    {
+      "date": "2026-11-06",
+      "what": "ціль CTA",
+      "from": 10.0,
+      "to": 15.0
+    },
+    {
+      "date": "2026-11-06",
+      "what": "ціль Кеш",
+      "from": 25.0,
+      "to": 20.0
     }
   ]
 }
