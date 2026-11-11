@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-10",
-  "generated_utc": "2026-11-10T15:27:16+00:00",
+  "generated_utc": "2026-11-11T02:09:07+00:00",
   "portfolio_as_of": "2026-10-19",
   "regime": {
     "current": "stress",
@@ -11,13 +11,13 @@
   },
   "portfolio": {
     "core": 50.9,
-    "equity": 14.7,
+    "equity": 14.6,
     "cta": 14.3,
     "cash": 20.1
   },
   "model_weights": {
     "core": 50.9,
-    "equity": 14.7,
+    "equity": 14.6,
     "cta": 10.1,
     "cash": 24.3
   },
@@ -56,7 +56,7 @@
   "execute_on": "2026-11-16",
   "core": {
     "peak": 88.09,
-    "drawdown_pct": -8.23,
+    "drawdown_pct": -8.19,
     "ladder_step": 1,
     "next_step_pct": "−14% → ядро 40%",
     "paused": false,
@@ -87,26 +87,26 @@
         "rsi_divergence": "none"
       },
       "metrics": {
-        "tlt": 80.85,
+        "tlt": 80.88,
         "sma50": 80.19,
         "sma200": 83.12,
-        "dist_sma200_pct": -2.73,
+        "dist_sma200_pct": -2.69,
         "sma50_vs_sma200_pct": -3.52,
         "above_sma200_days": 0,
-        "rsi": 50.5
+        "rsi": 50.8
       }
     },
     "rates": {
       "metrics": {
-        "y2": 4.51,
-        "y10": 4.99,
+        "y2": 4.56,
+        "y10": 4.98,
         "y30": 5.35,
-        "y10_chg_20d_bp": -23.0,
-        "rv10y_bp": 6.72,
+        "y10_chg_20d_bp": -23.4,
+        "rv10y_bp": 6.68,
         "rv10y_pct_1y": 100.0,
         "y30_pct_5y": 98.0,
-        "s2s10_bp": 35.4,
-        "s10s30_bp": 36.1
+        "s2s10_bp": 42.3,
+        "s10s30_bp": 36.7
       }
     },
     "stress": {
@@ -117,25 +117,25 @@
         "stress_vix": "no"
       },
       "metrics": {
-        "oas_ig_bp": 93.0,
-        "oas_ig_z_1y": 2.6,
-        "oas_ig_date": "2026-11-06",
-        "vix": 20.0,
-        "vix_pct_1y": 80.0,
-        "hy_oas_bp": 342.0,
+        "oas_ig_bp": 91.0,
+        "oas_ig_z_1y": 2.17,
+        "oas_ig_date": "2026-11-09",
+        "vix": 19.5,
+        "vix_pct_1y": 76.0,
+        "hy_oas_bp": 334.0,
         "nfci": -0.46
       }
     },
     "cta": {
       "metrics": {
-        "dbmf": 31.57,
+        "dbmf": 31.6,
         "sma100": 31.55,
-        "dist_sma100_pct": 0.04,
-        "dbmf_ret20_pct": -4.98,
-        "tlt_ret20_pct": 3.16,
+        "dist_sma100_pct": 0.15,
+        "dbmf_ret20_pct": -4.88,
+        "tlt_ret20_pct": 3.2,
         "corr60": -0.72,
         "cut": "no",
-        "dbmf_pa_gap_20d_pct": -0.2
+        "dbmf_pa_gap_20d_pct": 0.7
       }
     },
     "equity": {
@@ -143,9 +143,9 @@
         "vs_sma200": "above"
       },
       "metrics": {
-        "ssac": 120.52,
+        "ssac": 119.84,
         "sma200": 118.2,
-        "dist_sma200_pct": 1.96,
+        "dist_sma200_pct": 1.39,
         "above_sma200_days": 155
       }
     },
@@ -175,20 +175,22 @@
       "reason": "CTA до цілі 10% (скоринг 5)"
     }
   ],
-  "warnings": [],
+  "warnings": [
+    "DBMF, DBMF.PA, ISAC.L, IB01.L: денного закриття 2026-11-10 на Yahoo ще немає — взято останню погодинну ціну (наступний запуск замінить офіційним закриттям)"
+  ],
   "data_dates": {
     "TLT": "2026-11-10",
     "DBMF": "2026-11-10",
     "DBMF.PA": "2026-11-10",
     "ISAC.L": "2026-11-10",
     "IB01.L": "2026-11-10",
-    "DGS2": "2026-11-06",
-    "DGS10": "2026-11-06",
-    "DTB3": "2026-11-06",
-    "BAMLC0A0CM": "2026-11-06",
-    "BAMLC0A4CBBB": "2026-11-06",
-    "BAA10Y": "2026-11-06",
-    "BAMLH0A0HYM2": "2026-11-06",
+    "DGS2": "2026-11-09",
+    "DGS10": "2026-11-09",
+    "DTB3": "2026-11-09",
+    "BAMLC0A0CM": "2026-11-09",
+    "BAMLC0A4CBBB": "2026-11-09",
+    "BAA10Y": "2026-11-09",
+    "BAMLH0A0HYM2": "2026-11-09",
     "NFCI": "2026-10-30",
     "CPIAUCSL": "2026-10-01",
     "PAYEMS": "2026-10-01",
@@ -197,23 +199,7 @@
     "^TYX": "2026-11-10",
     "^VIX": "2026-11-10"
   },
-  "alerts": [
-    {
-      "what": "ціль CTA",
-      "from": 10.0,
-      "to": 15.0
-    },
-    {
-      "what": "ціль Кеш",
-      "from": 25.0,
-      "to": 20.0
-    },
-    {
-      "what": "угоди тижня",
-      "from": 1,
-      "to": 2
-    }
-  ],
+  "alerts": [],
   "alert_log": [
     {
       "date": "2026-10-02",
