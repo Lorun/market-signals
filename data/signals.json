@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-13",
-  "generated_utc": "2026-11-14T02:38:33+00:00",
+  "generated_utc": "2026-11-14T13:58:25+00:00",
   "portfolio_as_of": "2026-10-19",
   "regime": {
     "current": "stress",
@@ -11,13 +11,13 @@
   },
   "portfolio": {
     "core": 50.4,
-    "equity": 14.7,
+    "equity": 14.8,
     "cta": 14.6,
     "cash": 20.2
   },
   "model_weights": {
     "core": 50.4,
-    "equity": 14.7,
+    "equity": 14.8,
     "cta": 15.4,
     "cash": 19.4
   },
@@ -144,9 +144,9 @@
         "vs_sma200": "above"
       },
       "metrics": {
-        "ssac": 120.09,
+        "ssac": 120.16,
         "sma200": 118.33,
-        "dist_sma200_pct": 1.49,
+        "dist_sma200_pct": 1.54,
         "above_sma200_days": 158
       }
     },
@@ -183,9 +183,7 @@
       "reason": "CTA до цілі 20% (скоринг 8)"
     }
   ],
-  "warnings": [
-    "DBMF.PA, ISAC.L, IB01.L: денного закриття 2026-11-13 на Yahoo ще немає — взято останню погодинну ціну (наступний запуск замінить офіційним закриттям)"
-  ],
+  "warnings": [],
   "data_dates": {
     "TLT": "2026-11-13",
     "DBMF": "2026-11-13",
