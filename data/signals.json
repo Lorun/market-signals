@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-23",
-  "generated_utc": "2026-11-24T06:18:39+00:00",
+  "as_of": "2026-11-24",
+  "generated_utc": "2026-11-24T18:41:44+00:00",
   "portfolio_as_of": "2026-10-19",
   "regime": {
     "current": "stress",
@@ -10,16 +10,16 @@
     "confirm_days": 5
   },
   "portfolio": {
-    "core": 51.6,
-    "equity": 14.1,
-    "cta": 14.9,
-    "cash": 19.3
+    "core": 51.7,
+    "equity": 13.9,
+    "cta": 15.0,
+    "cash": 19.4
   },
   "model_weights": {
-    "core": 51.6,
-    "equity": 14.1,
+    "core": 51.7,
+    "equity": 13.9,
     "cta": 10.0,
-    "cash": 24.3
+    "cash": 24.4
   },
   "target": {
     "core": 50.0,
@@ -45,7 +45,7 @@
   "execute_on": "2026-11-30",
   "core": {
     "peak": 87.73,
-    "drawdown_pct": -6.88,
+    "drawdown_pct": -6.93,
     "ladder_step": 1,
     "next_step_pct": "−14% → ядро 40%",
     "paused": false,
@@ -77,26 +77,26 @@
         "rsi_divergence": "none"
       },
       "metrics": {
-        "tlt": 81.69,
-        "sma50": 79.78,
-        "sma200": 82.61,
-        "dist_sma200_pct": -1.11,
-        "sma50_vs_sma200_pct": -3.42,
+        "tlt": 81.65,
+        "sma50": 79.82,
+        "sma200": 82.59,
+        "dist_sma200_pct": -1.14,
+        "sma50_vs_sma200_pct": -3.36,
         "above_sma200_days": 0,
-        "rsi": 60.5
+        "rsi": 60.1
       }
     },
     "rates": {
       "metrics": {
         "y2": 4.63,
-        "y10": 4.92,
+        "y10": 4.91,
         "y30": 5.29,
-        "y10_chg_20d_bp": -6.8,
+        "y10_chg_20d_bp": -8.7,
         "rv10y_bp": 6.14,
-        "rv10y_pct_1y": 97.0,
+        "rv10y_pct_1y": 96.0,
         "y30_pct_5y": 96.0,
         "s2s10_bp": 28.8,
-        "s10s30_bp": 37.6
+        "s10s30_bp": 38.7
       }
     },
     "stress": {
@@ -107,25 +107,25 @@
         "stress_vix": "yes"
       },
       "metrics": {
-        "oas_ig_bp": 98.0,
-        "oas_ig_z_1y": 3.26,
-        "oas_ig_date": "2026-11-20",
-        "vix": 26.6,
+        "oas_ig_bp": 97.0,
+        "oas_ig_z_1y": 3.0,
+        "oas_ig_date": "2026-11-23",
+        "vix": 26.4,
         "vix_pct_1y": 95.0,
-        "hy_oas_bp": 376.0,
+        "hy_oas_bp": 363.0,
         "nfci": -0.48
       }
     },
     "cta": {
       "metrics": {
-        "dbmf": 31.56,
-        "sma100": 31.7,
-        "dist_sma100_pct": -0.45,
-        "dbmf_ret20_pct": -3.43,
-        "tlt_ret20_pct": 0.43,
-        "corr60": -0.73,
+        "dbmf": 31.55,
+        "sma100": 31.71,
+        "dist_sma100_pct": -0.52,
+        "dbmf_ret20_pct": -3.78,
+        "tlt_ret20_pct": 0.45,
+        "corr60": -0.74,
         "cut": "no",
-        "dbmf_pa_gap_20d_pct": 0.77
+        "dbmf_pa_gap_20d_pct": -0.73
       }
     },
     "equity": {
@@ -133,9 +133,9 @@
         "vs_sma200": "below"
       },
       "metrics": {
-        "ssac": 115.37,
-        "sma200": 118.46,
-        "dist_sma200_pct": -2.61,
+        "ssac": 113.79,
+        "sma200": 118.47,
+        "dist_sma200_pct": -3.95,
         "above_sma200_days": 0
       }
     },
@@ -179,37 +179,29 @@
       "reason": "скоринг CTA 5 → 10%"
     }
   ],
-  "warnings": [
-    "DBMF.PA, ISAC.L, IB01.L: денного закриття 2026-11-23 на Yahoo ще немає — взято останню погодинну ціну (наступний запуск замінить офіційним закриттям)"
-  ],
+  "warnings": [],
   "data_dates": {
-    "TLT": "2026-11-23",
-    "DBMF": "2026-11-23",
-    "DBMF.PA": "2026-11-23",
-    "ISAC.L": "2026-11-23",
-    "IB01.L": "2026-11-23",
+    "TLT": "2026-11-24",
+    "DBMF": "2026-11-24",
+    "DBMF.PA": "2026-11-24",
+    "ISAC.L": "2026-11-24",
+    "IB01.L": "2026-11-24",
     "DGS2": "2026-11-20",
     "DGS10": "2026-11-20",
     "DTB3": "2026-11-20",
-    "BAMLC0A0CM": "2026-11-20",
-    "BAMLC0A4CBBB": "2026-11-20",
+    "BAMLC0A0CM": "2026-11-23",
+    "BAMLC0A4CBBB": "2026-11-23",
     "BAA10Y": "2026-11-20",
-    "BAMLH0A0HYM2": "2026-11-20",
+    "BAMLH0A0HYM2": "2026-11-23",
     "NFCI": "2026-11-13",
     "CPIAUCSL": "2026-10-01",
     "PAYEMS": "2026-10-01",
     "UNRATE": "2026-10-01",
-    "^TNX": "2026-11-23",
-    "^TYX": "2026-11-23",
-    "^VIX": "2026-11-23"
+    "^TNX": "2026-11-24",
+    "^TYX": "2026-11-24",
+    "^VIX": "2026-11-24"
   },
-  "alerts": [
-    {
-      "what": "угоди тижня",
-      "from": 2,
-      "to": 1
-    }
-  ],
+  "alerts": [],
   "alert_log": [
     {
       "date": "2026-10-02",
