@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-27",
-  "generated_utc": "2026-11-27T17:16:26+00:00",
+  "generated_utc": "2026-11-28T04:09:41+00:00",
   "portfolio_as_of": "2026-10-19",
   "regime": {
     "current": "stress",
@@ -88,15 +88,15 @@
     },
     "rates": {
       "metrics": {
-        "y2": 4.63,
-        "y10": 4.93,
-        "y30": 5.33,
-        "y10_chg_20d_bp": -6.0,
-        "rv10y_bp": 6.31,
+        "y2": 4.61,
+        "y10": 4.94,
+        "y30": 5.32,
+        "y10_chg_20d_bp": -5.3,
+        "rv10y_bp": 6.36,
         "rv10y_pct_1y": 97.0,
         "y30_pct_5y": 97.0,
         "s2s10_bp": 21.8,
-        "s10s30_bp": 39.8
+        "s10s30_bp": 38.9
       }
     },
     "stress": {
@@ -104,28 +104,28 @@
         "stress": "yes",
         "stress_rates": "no",
         "stress_credit": "yes",
-        "stress_vix": "yes"
+        "stress_vix": "no"
       },
       "metrics": {
-        "oas_ig_bp": 98.0,
-        "oas_ig_z_1y": 3.11,
-        "oas_ig_date": "2026-11-24",
-        "vix": 24.7,
-        "vix_pct_1y": 90.0,
-        "hy_oas_bp": 372.0,
+        "oas_ig_bp": 99.0,
+        "oas_ig_z_1y": 3.13,
+        "oas_ig_date": "2026-11-26",
+        "vix": 23.8,
+        "vix_pct_1y": 88.0,
+        "hy_oas_bp": 377.0,
         "nfci": -0.44
       }
     },
     "cta": {
       "metrics": {
-        "dbmf": 31.67,
+        "dbmf": 31.66,
         "sma100": 31.73,
-        "dist_sma100_pct": -0.22,
-        "dbmf_ret20_pct": -3.17,
+        "dist_sma100_pct": -0.23,
+        "dbmf_ret20_pct": -3.18,
         "tlt_ret20_pct": 0.15,
         "corr60": -0.73,
         "cut": "no",
-        "dbmf_pa_gap_20d_pct": -0.1
+        "dbmf_pa_gap_20d_pct": -0.08
       }
     },
     "equity": {
@@ -133,9 +133,9 @@
         "vs_sma200": "below"
       },
       "metrics": {
-        "ssac": 116.01,
+        "ssac": 115.87,
         "sma200": 118.47,
-        "dist_sma200_pct": -2.08,
+        "dist_sma200_pct": -2.19,
         "above_sma200_days": 0
       }
     },
@@ -179,20 +179,22 @@
       "reason": "скоринг CTA 5 → 10%"
     }
   ],
-  "warnings": [],
+  "warnings": [
+    "DBMF.PA, ISAC.L, IB01.L: денного закриття 2026-11-27 на Yahoo ще немає — взято останню погодинну ціну (наступний запуск замінить офіційним закриттям)"
+  ],
   "data_dates": {
     "TLT": "2026-11-27",
     "DBMF": "2026-11-27",
     "DBMF.PA": "2026-11-27",
     "ISAC.L": "2026-11-27",
     "IB01.L": "2026-11-27",
-    "DGS2": "2026-11-24",
-    "DGS10": "2026-11-24",
-    "DTB3": "2026-11-24",
-    "BAMLC0A0CM": "2026-11-24",
-    "BAMLC0A4CBBB": "2026-11-24",
+    "DGS2": "2026-11-25",
+    "DGS10": "2026-11-25",
+    "DTB3": "2026-11-25",
+    "BAMLC0A0CM": "2026-11-26",
+    "BAMLC0A4CBBB": "2026-11-26",
     "BAA10Y": "2026-11-24",
-    "BAMLH0A0HYM2": "2026-11-24",
+    "BAMLH0A0HYM2": "2026-11-26",
     "NFCI": "2026-11-20",
     "CPIAUCSL": "2026-10-01",
     "PAYEMS": "2026-10-01",
